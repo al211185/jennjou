@@ -2,24 +2,31 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const navigation = [
+  { href: "#inicio", label: "Inicio" },
+  { href: "#sobre-mi", label: "Sobre mí" },
+  { href: "#portfolio", label: "Portfolio" },
+  { href: "#contacto", label: "Contacto" },
+];
+
 export default function Navbar() {
   return (
-    <nav className="py-4 bg-white/90 fixed top-0 w-full backdrop-blur-md z-10">
-      <div className="max-w-4xl mx-auto flex justify-between items-center px-6">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/images/logo.png"         // ← ruta desde public/
-            alt="Logo Jennjou"
-            width={40}                     // ajusta al tamaño de tu logo
-            height={40}
-            priority                       // opcional: carga anticipada
-          />
-          <span className="sr-only">Jennjou</span>
+    <nav className="fixed top-0 z-20 w-full border-b border-white/5 bg-black/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <Link href="/" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-fuchsia-200">
+          <Image src="/images/logo.png" alt="Logo Jennjou" width={40} height={40} priority />
+          Jennjou
         </Link>
-        <div className="space-x-6">
-          <Link href="#sobre-mi" className="hover:text-primary">Sobre mí</Link>
-          <Link href="#proyectos" className="hover:text-primary">Proyectos</Link>
-          <Link href="#contacto" className="hover:text-primary">Contacto</Link>
+        <div className="flex items-center gap-6 text-sm font-medium text-zinc-300">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="transition hover:text-fuchsia-200"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

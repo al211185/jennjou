@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="py-6 text-center text-sm text-gray-400 mt-16">
-      © {new Date().getFullYear()} Jennjou. Todos los derechos reservados.
+    <footer className="mt-24 border-t border-white/5 py-8 text-center text-sm text-zinc-500">
+      © {new Date().getFullYear()} Jennjou Studio · Diseño, código y visuales hiperpop desde Latinoamérica.
     </footer>
   );
 }

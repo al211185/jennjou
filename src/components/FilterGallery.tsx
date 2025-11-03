@@ -16,24 +16,24 @@ export default function FilterGallery() {
 
   return (
     <section id="proyectos" className="py-12">
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
-        {["All", ...allTags].map((tag) => (
-          <button
-            key={tag}
-            onClick={() => setActive(tag)}
-            className={`px-4 py-1 rounded-full border ${
-              active === tag
-                ? "bg-primary text-black"
-                : "border-gray-500 text-gray-300"
-            } transition`}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
+        <div className="mb-8 flex flex-wrap justify-center gap-3">
+          {["All", ...allTags].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActive(tag)}
+              className={`rounded-full border px-4 py-1 text-sm uppercase tracking-widest transition ${
+                active === tag
+                  ? "border-fuchsia-400 bg-fuchsia-400 text-black"
+                  : "border-zinc-700 text-zinc-400 hover:border-fuchsia-400 hover:text-fuchsia-200"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
       <div className="grid gap-8 md:grid-cols-3">
-        {filtered.map((p) => (
-          <ProyectoCard key={p.slug} {...p} />
+        {filtered.map((project) => (
+          <ProyectoCard key={project.slug} project={project} />
         ))}
       </div>
     </section>
