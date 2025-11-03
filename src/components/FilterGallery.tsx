@@ -23,8 +23,8 @@ export default function FilterGallery() {
               onClick={() => setActive(tag)}
               className={`rounded-full border px-4 py-1 text-sm uppercase tracking-widest transition ${
                 active === tag
-                  ? "border-fuchsia-400 bg-fuchsia-400 text-black"
-                  : "border-zinc-700 text-zinc-400 hover:border-fuchsia-400 hover:text-fuchsia-200"
+                  ? "border-black bg-black text-white"
+                  : "border-black text-gray-600 hover:bg-black hover:text-white"
               }`}
             >
               {tag}
