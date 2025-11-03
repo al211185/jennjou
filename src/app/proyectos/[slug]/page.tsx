@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { projects } from "@/data/projects";
+import { projects, categoryTitles } from "@/data/projects";
 
 interface Props {
   params: { slug: string };
@@ -40,32 +40,47 @@ export default function ProjectPage({ params: { slug } }: Props) {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return notFound();
 
+  const categoryLabel = categoryTitles[project.category];
+
   return (
-    <article className="prose lg:prose-xl mx-auto py-16 px-4">
-      <h1>{project.title}</h1>
+    <article className="mx-auto max-w-4xl py-16">
+      <div className="space-y-4">
+        <p className="text-sm uppercase tracking-[0.3em] text-black/50">{categoryLabel}</p>
+        <h1 className="text-4xl font-semibold text-black">{project.title}</h1>
+        <p className="text-base text-black/60">{project.description}</p>
+      </div>
 
-      <Image
-        src={project.cover}
-        alt={project.title}
-        width={800}
-        height={450}
-        className="rounded-lg"
-      />
+      <div className="mt-10 overflow-hidden rounded-3xl border border-black/10 bg-white">
+        <Image
+          src={project.cover}
+          alt={project.title}
+          width={1200}
+          height={720}
+          className="h-auto w-full object-cover"
+        />
+      </div>
 
-      <p>{project.description}</p>
+      <div className="mt-8 flex flex-wrap gap-3">
+        {project.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full border border-black/15 px-4 py-2 text-xs uppercase tracking-widest text-black/60"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
 
       {project.demoUrl && (
         <a
           href={project.demoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block mt-6 px-6 py-3 border-2 border-primary hover:bg-primary transition"
+          className="mt-10 inline-flex items-center justify-center rounded-full border border-black px-8 py-3 font-semibold text-black transition hover:bg-black hover:text-white"
         >
-          Ver demo
+          Ver demo en vivo
         </a>
       )}
-
-      {/* Aquí puedes agregar más secciones: carruseles de WIP, GIFs, embeds, etc. */}
     </article>
   );
 }

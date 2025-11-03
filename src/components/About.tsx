@@ -1,29 +1,26 @@
-import Image from "next/image";
-
 export default function About() {
   return (
-    <section id="sobre-mi" className="py-16">
-      <div className="max-w-2xl mx-auto text-center">
-        <div className="w-40 h-40 mx-auto rounded-full overflow-hidden">
-          <Image
-            src="/images/avatar.jpg"
-            alt="Jennjou Retrato"
-            width={160}
-            height={160}
-            className="object-cover"
-          />
-        </div>
-        <h2 className="text-3xl font-bold mt-6">Sobre mí</h2>
-        <p className="mt-4 text-lg leading-relaxed">
-          Soy Jennjou, una creativa multidisciplinar que fusiona ilustración,
-          3D y desarrollo web con un toque experimental.
+    <section
+      id="sobre-mi"
+      className="relative mt-24 overflow-hidden rounded-3xl border border-black/10 bg-neutral-50 px-8 py-20 scroll-mt-32"
+    >
+      <div className="mx-auto max-w-3xl space-y-6 text-center">
+        <h2 className="text-3xl font-semibold text-black sm:text-4xl">Sobre mí</h2>
+        <p className="text-lg leading-relaxed text-black/70">
+          Soy Jennjou, directora creativa y desarrolladora front-end. Diseño ecosistemas visuales que viven tanto en la pantalla
+          como en piezas impresas. Me obsesiona la narrativa, la tecnología emergente y las sinergias entre música, cultura pop y
+          estética digital.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          {["JavaScript", "React", "Next.js", "Blender", "Unity", ".NET 9"].map(
+        <p className="text-base text-black/60">
+          Lidero proyectos de branding, diseño UI, ilustración editorial y motion graphics; colaboro con equipos
+          multidisciplinarios para lanzar productos con identidad propia y experiencias que sorprenden.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          {["Dirección de arte", "Design systems", "React & Next.js", "Blender", "Adobe After Effects", "Brand Storytelling"].map(
             (skill) => (
               <span
                 key={skill}
-                className="px-3 py-1 bg-primary text-black rounded-full text-sm font-medium"
+                className="rounded-full border border-black/20 bg-white px-4 py-1 text-sm text-black/70"
               >
                 {skill}
               </span>
