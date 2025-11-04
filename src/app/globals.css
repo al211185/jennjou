@@ -36,3 +36,20 @@ body {
     transition: none !important;
   }
 }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 18s linear infinite;
+}
+
+/* Respeto reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none !important; }
+}
+
