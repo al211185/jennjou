@@ -22,3 +22,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
 }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Respeto a usuarios con reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .motion-reduce\:stop-anim,
+  .motion-reduce\:stop-anim *::before,
+  .motion-reduce\:stop-anim *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
