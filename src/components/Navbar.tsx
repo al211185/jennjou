@@ -51,9 +51,6 @@ export default function Navbar() {
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
   const heroOpacity = 1 - scrollProgress;
-  const distort = 1 - scrollProgress; // 1 = tope (más distorsión), 0 = tras el umbral
-
-
   return (
     <>
 
@@ -81,7 +78,7 @@ export default function Navbar() {
       </div>
 
       <nav className="fixed top-0 z-50 w-full">
-        <div className="mx-auto max-w-8xl px-6 py-3">
+        <div className="px-6 py-3 lg:px-12">
           <div
             ref={shellRef}
             onMouseMove={handlePointer}
@@ -93,6 +90,7 @@ export default function Navbar() {
             }}
             className="
               relative isolate
+              w-full
               rounded-2xl
               border border-white/20
               bg-white/25 dark:bg-black/15

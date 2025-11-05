@@ -2,7 +2,7 @@ export default function About() {
   return (
     <section
       id="sobre-mi"
-      className="relative mt-24 overflow-hidden rounded-3xl border border-black bg-white px-8 py-20 scroll-mt-32"
+      className="relative mx-auto mt-24 max-w-6xl overflow-hidden rounded-3xl border border-black bg-white px-8 py-20 scroll-mt-32"
     >
       <div className="mx-auto max-w-3xl space-y-6 text-center">
         <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mí</h2>
