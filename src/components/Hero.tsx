@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate overflow-hidden rounded-3xl border border-black bg-white px-8 py-24 text-center shadow-[0_35px_120px_-80px_rgba(0,0,0,0.55)] scroll-mt-32"
+      className="relative isolate mx-auto max-w-6xl overflow-hidden rounded-3xl border border-black bg-white px-8 py-24 text-center shadow-[0_35px_120px_-80px_rgba(0,0,0,0.55)] scroll-mt-32"
     >
       <div className="mx-auto max-w-3xl space-y-6">
         <p className="text-sm uppercase tracking-[0.4em] text-gray-500">

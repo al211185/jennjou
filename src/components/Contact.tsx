@@ -17,7 +17,7 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="mt-24 rounded-3xl border border-black bg-white px-8 py-16 text-center scroll-mt-32"
+      className="mx-auto mt-24 max-w-6xl rounded-3xl border border-black bg-white px-8 py-16 text-center scroll-mt-32"
     >
       <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Contacto</p>
       <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
