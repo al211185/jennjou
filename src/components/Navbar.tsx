@@ -81,7 +81,7 @@ export default function Navbar() {
       </div>
 
       <nav className="fixed top-0 z-50 w-full">
-        <div className="mx-auto max-w-5xl px-6 py-3">
+        <div className="mx-auto max-w-8xl px-6 py-3">
           <div
             ref={shellRef}
             onMouseMove={handlePointer}
