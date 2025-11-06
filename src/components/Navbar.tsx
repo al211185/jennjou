@@ -16,6 +16,7 @@ export default function Navbar() {
   const shellRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0); // 0 = top, 1 = umbral
+  const [isBackgroundLight, setIsBackgroundLight] = useState(false);
 
   const handlePointer = (e: MouseEvent<HTMLDivElement>) => {
     const el = shellRef.current;
@@ -46,11 +47,76 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const parseColor = (input: string) => {
+      const match = input.match(
+        /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\)/
+      );
+      if (!match) return null;
+      const [, r, g, b, a] = match;
+      return {
+        r: Number(r),
+        g: Number(g),
+        b: Number(b),
+        a: a === undefined ? 1 : Number(a),
+      };
+    };
+
+    const getBackgroundRGB = (element: Element | null): [number, number, number] | null => {
+      if (!element) return null;
+      const color = window.getComputedStyle(element).backgroundColor;
+      if (color && color !== "transparent") {
+        const parsed = parseColor(color);
+        if (parsed && parsed.a > 0.01) {
+          return [parsed.r, parsed.g, parsed.b];
+        }
+      }
+      return getBackgroundRGB(element.parentElement);
+    };
+
+    const evaluateBackground = () => {
+      const shell = shellRef.current;
+      if (!shell) return;
+
+      const rect = shell.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      const previousPointerEvents = shell.style.pointerEvents;
+      shell.style.pointerEvents = "none";
+      const target = document.elementFromPoint(x, y);
+      shell.style.pointerEvents = previousPointerEvents;
+
+      const rgb = getBackgroundRGB(target) ?? [255, 255, 255];
+      const [r, g, b] = rgb;
+      const brightness = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      setIsBackgroundLight(brightness >= 0.6);
+    };
+
+    let frame = 0;
+    const scheduleEvaluation = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(evaluateBackground);
+    };
+
+    evaluateBackground();
+    window.addEventListener("scroll", scheduleEvaluation, { passive: true });
+    window.addEventListener("resize", scheduleEvaluation);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleEvaluation);
+      window.removeEventListener("resize", scheduleEvaluation);
+    };
+  }, []);
+
   // Interpolaciones para el logo central
   // scale: 1.30 -> 0.75, translateY: 0% -> -35%, opacity: 1 -> 0
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
   const heroOpacity = 1 - scrollProgress;
+  const textColorClass = isBackgroundLight ? "text-neutral-900" : "text-white";
+
   return (
     <>
 
@@ -170,7 +236,7 @@ export default function Navbar() {
             <div className="relative z-10 flex items-center justify-between px-6 py-4">
               <Link
                 href="/"
-                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition-all duration-500 ${isScrolled
+                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] transition-all duration-500 ${textColorClass} ${isScrolled
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none -translate-y-4 opacity-0"
                   }`}
@@ -184,10 +250,12 @@ export default function Navbar() {
                   className={`transition-transform duration-500 ${isScrolled ? "scale-100" : "scale-0"
                     }`}
                 />
-                <span className="mix-blend-difference">Jennjou</span>
+                <span>Jennjou</span>
               </Link>
 
-              <div className="flex items-center gap-6 text-sm font-medium text-white mix-blend-difference">
+              <div
+                className={`flex items-center gap-6 text-sm font-medium transition-colors ${textColorClass}`}
+              >
                 {navigation.map((item) => (
                   <Link
                     key={item.href}
