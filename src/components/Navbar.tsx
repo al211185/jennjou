@@ -15,7 +15,7 @@ const navigation = [
 export default function Navbar() {
   const shellRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0); // 0 = top, 1 = umbral
+  const [scrollProgress, setScrollProgress] = useState(0); // 0 = top, 1 = umbral  const [isBackgroundLight, setIsBackgroundLight] = useState(false);  const [isBackgroundLight, setIsBackgroundLight] = useState(false);
   const [isBackgroundLight, setIsBackgroundLight] = useState(false);
 
   const handlePointer = (e: MouseEvent<HTMLDivElement>) => {
@@ -62,16 +62,78 @@ export default function Navbar() {
       };
     };
 
-    const getBackgroundRGB = (element: Element | null): [number, number, number] | null => {
-      if (!element) return null;
+    const getOpaqueBackgroundRGB = (
+      element: Element
+    ): [number, number, number] | null => {
       const color = window.getComputedStyle(element).backgroundColor;
-      if (color && color !== "transparent") {
-        const parsed = parseColor(color);
-        if (parsed && parsed.a > 0.01) {
-          return [parsed.r, parsed.g, parsed.b];
-        }
+      if (!color || color === "transparent") return null;
+      const parsed = parseColor(color);
+      if (!parsed || parsed.a <= 0.01) return null;
+      return [parsed.r, parsed.g, parsed.b];
+    };
+
+    const samplerCanvas = document.createElement("canvas");
+    samplerCanvas.width = 1;
+    samplerCanvas.height = 1;
+    const samplerContext = samplerCanvas.getContext("2d", {
+      willReadFrequently: true,
+    });
+
+    if (!samplerContext) return;
+
+    const sampleMediaPixel = (
+      media: HTMLImageElement | HTMLVideoElement,
+      clientX: number,
+      clientY: number
+    ): [number, number, number] | null => {
+      const rect = media.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return null;
+
+      const xRatio = (clientX - rect.left) / rect.width;
+      const yRatio = (clientY - rect.top) / rect.height;
+      if (xRatio < 0 || xRatio > 1 || yRatio < 0 || yRatio > 1) return null;
+
+      const naturalWidth =
+        media instanceof HTMLImageElement ? media.naturalWidth : media.videoWidth;
+      const naturalHeight =
+        media instanceof HTMLImageElement
+          ? media.naturalHeight
+          : media.videoHeight;
+
+      if (!naturalWidth || !naturalHeight) return null;
+
+      const sampleX = Math.floor(xRatio * naturalWidth);
+      const sampleY = Math.floor(yRatio * naturalHeight);
+
+      try {
+        samplerContext.clearRect(0, 0, 1, 1);
+        samplerContext.drawImage(media, sampleX, sampleY, 1, 1, 0, 0, 1, 1);
+        const data = samplerContext.getImageData(0, 0, 1, 1).data;
+        return [data[0], data[1], data[2]];
+      } catch {
+        return null;
       }
-      return getBackgroundRGB(element.parentElement);
+    };
+
+    const sampleElementRGB = (
+      element: Element,
+      clientX: number,
+      clientY: number
+    ): [number, number, number] | null => {
+      const backgroundRGB = getOpaqueBackgroundRGB(element);
+      if (backgroundRGB) return backgroundRGB;
+
+      if (element instanceof HTMLImageElement) {
+        const imageRGB = sampleMediaPixel(element, clientX, clientY);
+        if (imageRGB) return imageRGB;
+      }
+
+      if (element instanceof HTMLVideoElement) {
+        const videoRGB = sampleMediaPixel(element, clientX, clientY);
+        if (videoRGB) return videoRGB;
+      }
+
+      return null;
     };
 
     const evaluateBackground = () => {
@@ -84,11 +146,20 @@ export default function Navbar() {
 
       const previousPointerEvents = shell.style.pointerEvents;
       shell.style.pointerEvents = "none";
-      const target = document.elementFromPoint(x, y);
+      const stack = document.elementsFromPoint
+        ? document.elementsFromPoint(x, y)
+        : [document.elementFromPoint(x, y)].filter(
+            (el): el is Element => el !== null
+          );
       shell.style.pointerEvents = previousPointerEvents;
 
-      const rgb = getBackgroundRGB(target) ?? [255, 255, 255];
-      const [r, g, b] = rgb;
+      let sampled: [number, number, number] | null = null;
+      for (const element of stack) {
+        sampled = sampleElementRGB(element, x, y);
+        if (sampled) break;
+      }
+
+      const [r, g, b] = sampled ?? [255, 255, 255];
       const brightness = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
       setIsBackgroundLight(brightness >= 0.6);
     };
@@ -102,13 +173,18 @@ export default function Navbar() {
     evaluateBackground();
     window.addEventListener("scroll", scheduleEvaluation, { passive: true });
     window.addEventListener("resize", scheduleEvaluation);
+    window.addEventListener("load", scheduleEvaluation);
+    document.addEventListener("load", scheduleEvaluation, true);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", scheduleEvaluation);
       window.removeEventListener("resize", scheduleEvaluation);
+      window.removeEventListener("load", scheduleEvaluation);
+      document.removeEventListener("load", scheduleEvaluation, true);
     };
   }, []);
+
 
   // Interpolaciones para el logo central
   // scale: 1.30 -> 0.75, translateY: 0% -> -35%, opacity: 1 -> 0
