@@ -12,17 +12,23 @@ export default function BumpSequence() {
     []
   );
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     const tick = () => {
       setActiveIndex((previous) => (previous + 1) % images.length);
     };
 
+    if (!isPlaying) {
+      return;
+    }
+
     const intervalId = window.setInterval(tick, INTERVAL_MS);
     return () => window.clearInterval(intervalId);
-  }, [images.length]);
+  }, [images.length, isPlaying]);
 
-    const activeImage = images[activeIndex];
+  const activeImage = images[activeIndex];
+  const isPaused = !isPlaying;
 
 
   return (
@@ -32,7 +38,7 @@ export default function BumpSequence() {
         className="relative w-full overflow-hidden border-y border-black/5 bg-black/5"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.35),_transparent_65%)]" aria-hidden />
-        <div className="relative mx-auto aspect-[16/5.5] w-full max-w-none min-h-[35vh]">
+        <div className="relative mx-auto w-full max-w-none min-h-[35vh] aspect-[16/9] lg:aspect-[16/5.5]">
           <Image
             key={activeImage}
             src={activeImage}
@@ -42,6 +48,29 @@ export default function BumpSequence() {
             className="object-cover"
             priority
           />
+          <div className="pointer-events-none absolute inset-0 via-black/0 to-black/20" aria-hidden />
+          <div className="absolute inset-x-0 bottom-0 flex justify-center pb-6">
+            <button
+              type="button"
+              onClick={() => setIsPlaying((previous) => !previous)}
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-black/70 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-black/80"
+              aria-pressed={isPaused}
+              aria-label={isPlaying ? "Pausar secuencia" : "Reproducir secuencia"}
+              title={isPlaying ? "Pausar secuencia" : "Reproducir secuencia"}
+            >
+              <span className="inline-flex h-2 w-2 items-center justify-center">
+                {isPlaying ? (
+                  <span className="grid h-2 w-2 grid-cols-2 gap-[2px]">
+                    <span className="block h-full w-full bg-white" />
+                    <span className="block h-full w-full bg-white" />
+                  </span>
+                ) : (
+                  <span className="block h-0 w-0 border-y-[6px] border-y-transparent border-l-[10px] border-l-white" />
+                )}
+              </span>
+              {isPlaying ? "Pausar" : "Reproducir"}
+            </button>
+          </div>
         </div>
       </section>
       <section

@@ -150,7 +150,7 @@ export default function Navbar() {
                 before:absolute before:inset-[-30%]
                 before:content-['']
                 before:[background:conic-gradient(from_180deg,rgba(255,255,255,0.24)_0deg,transparent_120deg,rgba(255,255,255,0.24)_240deg)]
-                before:animate-[spin_18s_linear_infinite]
+
                 [mask-image:radial-gradient(420px_300px_at_var(--glass-x,_50%)_var(--glass-y,_50%),#000_35%,transparent_85%)]
                 [mix-blend-mode:soft-light]
               "
