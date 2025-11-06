@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 const IMAGE_COUNT = 9;
-const INTERVAL_MS = 500;
+const INTERVAL_MS = 100;
 
 export default function BumpSequence() {
   const images = useMemo(
@@ -22,6 +22,9 @@ export default function BumpSequence() {
     return () => window.clearInterval(intervalId);
   }, [images.length]);
 
+    const activeImage = images[activeIndex];
+
+
   return (
     <>
       <section
@@ -29,20 +32,16 @@ export default function BumpSequence() {
         className="relative w-full overflow-hidden border-y border-black/5 bg-black/5"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.35),_transparent_65%)]" aria-hidden />
-        <div className="relative mx-auto aspect-[16/9] w-full max-w-none min-h-[50vh]">
-          {images.map((src, index) => (
-            <Image
-              key={src}
-              src={src}
-              alt={`Composición ${index + 1}`}
-              fill
-              sizes="100vw"
-              className={`object-cover transition-opacity duration-300 ease-out ${
-                index === activeIndex ? "opacity-100" : "opacity-0"
-              }`}
-              priority={index === 0}
-            />
-          ))}
+        <div className="relative mx-auto aspect-[16/5.5] w-full max-w-none min-h-[35vh]">
+          <Image
+            key={activeImage}
+            src={activeImage}
+            alt={`Composición ${activeIndex + 1}`}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
         </div>
       </section>
       <section
