@@ -16,6 +16,7 @@ export default function Navbar() {
   const shellRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0); // 0 = top, 1 = umbral
+  const [isBackgroundLight, setIsBackgroundLight] = useState(false);
 
   const handlePointer = (e: MouseEvent<HTMLDivElement>) => {
     const el = shellRef.current;
@@ -46,11 +47,151 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const parseColor = (input: string) => {
+      const match = input.match(
+        /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\)/
+      );
+      if (!match) return null;
+      const [, r, g, b, a] = match;
+      return {
+        r: Number(r),
+        g: Number(g),
+        b: Number(b),
+        a: a === undefined ? 1 : Number(a),
+      };
+    };
+
+    const getOpaqueBackgroundRGB = (
+      element: Element
+    ): [number, number, number] | null => {
+      const color = window.getComputedStyle(element).backgroundColor;
+      if (!color || color === "transparent") return null;
+      const parsed = parseColor(color);
+      if (!parsed || parsed.a <= 0.01) return null;
+      return [parsed.r, parsed.g, parsed.b];
+    };
+
+    const samplerCanvas = document.createElement("canvas");
+    samplerCanvas.width = 1;
+    samplerCanvas.height = 1;
+    const samplerContext = samplerCanvas.getContext("2d", {
+      willReadFrequently: true,
+    });
+
+    if (!samplerContext) return;
+
+    const sampleMediaPixel = (
+      media: HTMLImageElement | HTMLVideoElement,
+      clientX: number,
+      clientY: number
+    ): [number, number, number] | null => {
+      const rect = media.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return null;
+
+      const xRatio = (clientX - rect.left) / rect.width;
+      const yRatio = (clientY - rect.top) / rect.height;
+      if (xRatio < 0 || xRatio > 1 || yRatio < 0 || yRatio > 1) return null;
+
+      const naturalWidth =
+        media instanceof HTMLImageElement ? media.naturalWidth : media.videoWidth;
+      const naturalHeight =
+        media instanceof HTMLImageElement
+          ? media.naturalHeight
+          : media.videoHeight;
+
+      if (!naturalWidth || !naturalHeight) return null;
+
+      const sampleX = Math.floor(xRatio * naturalWidth);
+      const sampleY = Math.floor(yRatio * naturalHeight);
+
+      try {
+        samplerContext.clearRect(0, 0, 1, 1);
+        samplerContext.drawImage(media, sampleX, sampleY, 1, 1, 0, 0, 1, 1);
+        const data = samplerContext.getImageData(0, 0, 1, 1).data;
+        return [data[0], data[1], data[2]];
+      } catch {
+        return null;
+      }
+    };
+
+    const sampleElementRGB = (
+      element: Element,
+      clientX: number,
+      clientY: number
+    ): [number, number, number] | null => {
+      const backgroundRGB = getOpaqueBackgroundRGB(element);
+      if (backgroundRGB) return backgroundRGB;
+
+      if (element instanceof HTMLImageElement) {
+        const imageRGB = sampleMediaPixel(element, clientX, clientY);
+        if (imageRGB) return imageRGB;
+      }
+
+      if (element instanceof HTMLVideoElement) {
+        const videoRGB = sampleMediaPixel(element, clientX, clientY);
+        if (videoRGB) return videoRGB;
+      }
+
+      return null;
+    };
+
+    const evaluateBackground = () => {
+      const shell = shellRef.current;
+      if (!shell) return;
+
+      const rect = shell.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      const previousPointerEvents = shell.style.pointerEvents;
+      shell.style.pointerEvents = "none";
+      const stack = document.elementsFromPoint
+        ? document.elementsFromPoint(x, y)
+        : [document.elementFromPoint(x, y)].filter(
+            (el): el is Element => el !== null
+          );
+      shell.style.pointerEvents = previousPointerEvents;
+
+      let sampled: [number, number, number] | null = null;
+      for (const element of stack) {
+        sampled = sampleElementRGB(element, x, y);
+        if (sampled) break;
+      }
+
+      const [r, g, b] = sampled ?? [255, 255, 255];
+      const brightness = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      setIsBackgroundLight(brightness >= 0.6);
+    };
+
+    let frame = 0;
+    const scheduleEvaluation = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(evaluateBackground);
+    };
+
+    evaluateBackground();
+    window.addEventListener("scroll", scheduleEvaluation, { passive: true });
+    window.addEventListener("resize", scheduleEvaluation);
+    window.addEventListener("load", scheduleEvaluation);
+    document.addEventListener("load", scheduleEvaluation, true);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleEvaluation);
+      window.removeEventListener("resize", scheduleEvaluation);
+      window.removeEventListener("load", scheduleEvaluation);
+      document.removeEventListener("load", scheduleEvaluation, true);
+    };
+  }, []);
+
   // Interpolaciones para el logo central
   // scale: 1.30 -> 0.75, translateY: 0% -> -35%, opacity: 1 -> 0
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
   const heroOpacity = 1 - scrollProgress;
+  const textColorClass = isBackgroundLight ? "text-neutral-900" : "text-white";
+
   return (
     <>
 
@@ -170,7 +311,7 @@ export default function Navbar() {
             <div className="relative z-10 flex items-center justify-between px-6 py-4">
               <Link
                 href="/"
-                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition-all duration-500 ${isScrolled
+                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] transition-all duration-500 ${textColorClass} ${isScrolled
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none -translate-y-4 opacity-0"
                   }`}
@@ -184,10 +325,12 @@ export default function Navbar() {
                   className={`transition-transform duration-500 ${isScrolled ? "scale-100" : "scale-0"
                     }`}
                 />
-                <span className="mix-blend-difference">Jennjou</span>
+                <span>Jennjou</span>
               </Link>
 
-              <div className="flex items-center gap-6 text-sm font-medium text-white mix-blend-difference">
+              <div
+                className={`flex items-center gap-6 text-sm font-medium transition-colors ${textColorClass}`}
+              >
                 {navigation.map((item) => (
                   <Link
                     key={item.href}
