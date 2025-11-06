@@ -170,9 +170,9 @@ export default function Navbar() {
             <div className="relative z-10 flex items-center justify-between px-6 py-4">
               <Link
                 href="/"
-                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-black/80 transition-all duration-500 dark:text-white/80 ${isScrolled
-                    ? "pointer-events-auto translate-y-0 opacity-100"
-                    : "pointer-events-none -translate-y-4 opacity-0"
+                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition-all duration-500 ${isScrolled
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none -translate-y-4 opacity-0"
                   }`}
               >
                 <Image
@@ -184,15 +184,15 @@ export default function Navbar() {
                   className={`transition-transform duration-500 ${isScrolled ? "scale-100" : "scale-0"
                     }`}
                 />
-                Jennjou
+                <span className="mix-blend-difference">Jennjou</span>
               </Link>
 
-              <div className="flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-200">
+              <div className="flex items-center gap-6 text-sm font-medium text-white mix-blend-difference">
                 {navigation.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="transition hover:text-black dark:hover:text-white"
+                    className="transition hover:opacity-80"
                   >
                     {item.label}
                   </Link>
