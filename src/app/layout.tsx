@@ -2,7 +2,10 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jennjou.com";
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Jennjou · Portfolio",
   description: "Ilustración · 3D · Web · APIS · Animación",
   openGraph: {
