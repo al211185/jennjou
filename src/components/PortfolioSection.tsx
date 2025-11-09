@@ -10,7 +10,8 @@ interface Props {
 export default async function PortfolioSection({ section }: Props) {
   const isIllustrationSection = section.id === "ilustracion";
   const instagramPosts = isIllustrationSection ? await fetchInstagramMedia() : [];
-  const shouldUseInstagram = isIllustrationSection && instagramPosts.length > 0;
+  const imageOnlyInstagramPosts = instagramPosts.filter((post) => post.mediaType === "IMAGE" || post.mediaType === "CAROUSEL_ALBUM");
+  const shouldUseInstagram = isIllustrationSection && imageOnlyInstagramPosts.length > 0;
   const projectsToRender = section.projects;
 
   return (
@@ -20,32 +21,32 @@ export default async function PortfolioSection({ section }: Props) {
         <h3 className="text-2xl font-semibold sm:text-3xl">{section.title}</h3>
         <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
       </header>
-      {shouldUseInstagram ? (
-        <InstagramGrid posts={instagramPosts} profileUrl={INSTAGRAM_PROFILE_URL} />
-      ) : (
-        <div className="space-y-6">
-          {isIllustrationSection ? (
-            <p className="text-sm text-gray-500">
-              Sigue el portafolio actualizado en
-              {" "}
-              <a
-                href={INSTAGRAM_PROFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-gray-700 underline underline-offset-4 transition hover:text-black"
-              >
-                Instagram (@jennjou_)
-              </a>
-              .
-            </p>
-          ) : null}
+  <div className="space-y-6">
+        {isIllustrationSection ? (
+          <p className="text-sm text-gray-500">
+            Sigue el portafolio actualizado en
+            {" "}
+            <a
+              href={INSTAGRAM_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-gray-700 underline underline-offset-4 transition hover:text-black"
+            >
+              Instagram (@jennjou_)
+            </a>
+            .
+          </p>
+        ) : null}
+        {shouldUseInstagram ? (
+          <InstagramGrid posts={imageOnlyInstagramPosts} profileUrl={INSTAGRAM_PROFILE_URL} />
+        ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {projectsToRender.map((project) => (
               <ProyectoCard key={project.slug} project={project} />
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }

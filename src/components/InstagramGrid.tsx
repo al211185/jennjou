@@ -21,7 +21,7 @@ function formatCaption(caption: string | null): string {
 
 export default function InstagramGrid({ posts, profileUrl }: Props) {
   return (
-    <div className="space-y-6">
+    <>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => {
           const label = formatCaption(post.caption);
@@ -64,6 +64,6 @@ export default function InstagramGrid({ posts, profileUrl }: Props) {
           </a>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }

@@ -53,3 +53,26 @@ body {
   .animate-marquee { animation: none !important; }
 }
 
+/* Fallback visual cuando el navegador NO soporta backdrop-filter:url(#id) */
+@supports not (backdrop-filter: url("#x")) {
+  .no-displacement-fallback {
+    /* nada, ya traes blur base */
+  }
+}
+
+/* Fallback móvil / reduce motion */
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+  [data-glass="nav"] {
+    backdrop-filter: blur(18px) saturate(135%) brightness(1.03) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) brightness(1.03) !important;
+  }
+}
+
+/* Sin soporte de backdrop-filter */
+@supports not (backdrop-filter: blur(0px)) {
+  [data-glass="nav"] {
+    background: rgba(24,24,27,0.35);
+  }
+}
+
+

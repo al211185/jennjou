@@ -18,6 +18,18 @@ export const INSTAGRAM_PROFILE_URL =
 const IG_API_VERSION = process.env.IG_API_VERSION ?? "v20.0";
 const DEFAULT_LIMIT = 9;
 
+const ALLOWED_MEDIA_TYPES = new Set(["IMAGE", "CAROUSEL_ALBUM"]);
+
+type RawInstagramItem = {
+  id?: string;
+  caption?: string | null;
+  media_url?: string | null;
+  permalink?: string;
+  media_type?: string | null;
+  thumbnail_url?: string | null;
+};
+
+
 export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<InstagramMediaItem[]> {
   if (!IG_USER_ID || !IG_GRAPH_TOKEN) {
     console.warn("IG Graph env vars missing; skipping fetch.");
@@ -36,21 +48,29 @@ export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<Instag
       console.error("IG Graph fetch failed", res.status, await res.text());
       return [];
     }
-    const payload = (await res.json()) as { data?: any[] };
+    const payload = (await res.json()) as { data?: RawInstagramItem[] };
     return (payload.data ?? [])
       .map((item) => {
+                if (!item) return null;
+        const mediaType = item.media_type?.toUpperCase() ?? "";
+        if (!ALLOWED_MEDIA_TYPES.has(mediaType)) {
+          return null;
+        }
+
         const mediaUrl = item.media_url ?? item.thumbnail_url;
-        if (!mediaUrl) return null;
+        if (!mediaUrl || !item.id || !item.permalink) {
+          return null;
+        }
         return {
           id: item.id,
           caption: item.caption ?? null,
           mediaUrl,
           permalink: item.permalink,
-          mediaType: item.media_type,
+          mediaType,
           thumbnailUrl: item.thumbnail_url ?? null,
         } as InstagramMediaItem;
       })
-      .filter(Boolean) as InstagramMediaItem[];
+      .filter((item): item is InstagramMediaItem => item !== null);
   } catch (e) {
     console.error("IG Graph error", e);
     return [];
