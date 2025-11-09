@@ -3,6 +3,9 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 export const metadata = {
+    metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://jennjou.com"
+  ),
   title: "Jennjou · Portfolio",
   description: "Ilustración · 3D · Web · APIS · Animación",
   openGraph: {
