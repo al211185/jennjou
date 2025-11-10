@@ -4,6 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, MouseEvent, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navigation = [
   { href: "#inicio", label: "Inicio" },
@@ -13,6 +14,14 @@ const navigation = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  // En Home usamos hashes directos; fuera de Home enlazamos a "/#id"
+  const links = isHome
+    ? navigation
+    : navigation.map((item) => ({ ...item, href: `/${item.href}` }));
+
   const shellRef = useRef<HTMLDivElement>(null);
 
   // SVG filter nodes
@@ -23,9 +32,9 @@ export default function Navbar() {
   const rafRef = useRef<number | null>(null);
   const lastXYRef = useRef<{ x: number; y: number }>({ x: 50, y: 50 });
 
-  // UI state
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  // UI state (inicializa "compacto" fuera de Home)
+  const [isScrolled, setIsScrolled] = useState<boolean>(() => !isHome);
+  const [scrollProgress, setScrollProgress] = useState<number>(() => (isHome ? 0 : 1));
   const [isBackgroundLight, setIsBackgroundLight] = useState(false);
 
   // Tuning (look iOS-like)
@@ -66,8 +75,13 @@ export default function Navbar() {
     };
   }, []);
 
-  // Scroll state
+  // Scroll state: solo activa en Home. Fuera de Home queda compacto y sin listener.
   useEffect(() => {
+    if (!isHome) {
+      setScrollProgress(1);
+      setIsScrolled(true);
+      return;
+    }
     const threshold = 80;
     const onScroll = () => {
       const p = Math.min(1, Math.max(0, window.scrollY / threshold));
@@ -77,7 +91,7 @@ export default function Navbar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
 
   // Background luminance sampler (para elegir color de texto)
   useEffect(() => {
@@ -231,7 +245,7 @@ export default function Navbar() {
     return () => ro.disconnect();
   }, []);
 
-  // Hero logo interp
+  // Hero logo interp (solo se usa cuando isHome=true)
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
   const heroOpacity = 1 - scrollProgress;
@@ -270,25 +284,27 @@ export default function Navbar() {
         </defs>
       </svg>
 
-      {/* Hero */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center"
-        style={{
-          transform: `translateY(${heroTranslateY}%) scale(${heroScale})`,
-          opacity: heroOpacity,
-          transition: "transform 700ms ease-out, opacity 700ms ease-out",
-        }}
-      >
-        <Image
-          src="/images/logo.png"
-          alt="Logo Jennjou"
-          width={420}
-          height={420}
-          priority
-          className="h-auto w-[220px] sm:w-[320px] md:w-[380px] lg:w-[420px]"
-        />
-      </div>
+      {/* Hero solo en Home */}
+      {isHome && (
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center"
+          style={{
+            transform: `translateY(${heroTranslateY}%) scale(${heroScale})`,
+            opacity: heroOpacity,
+            transition: "transform 700ms ease-out, opacity 700ms ease-out",
+          }}
+        >
+          <Image
+            src="/images/logo.png"
+            alt="Logo Jennjou"
+            width={420}
+            height={420}
+            priority
+            className="h-auto w-[220px] sm:w-[320px] md:w-[380px] lg:w-[420px]"
+          />
+        </div>
+      )}
 
       <nav className="fixed top-0 z-50 w-full">
         <div className="px-6 py-3 lg:px-12">
@@ -342,7 +358,7 @@ export default function Navbar() {
               }}
             />
 
-            {/* Brillo principal (specular que sigue el cursor) */}
+            {/* Brillo principal */}
             <span
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-2xl mix-blend-screen opacity-70"
@@ -355,7 +371,7 @@ export default function Navbar() {
               }}
             />
 
-            {/* Viñeta interior sutil (profundidad) */}
+            {/* Viñeta interior sutil */}
             <span
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-2xl"
@@ -367,7 +383,7 @@ export default function Navbar() {
               }}
             />
 
-            {/* Bevel/edge iOS-like */}
+            {/* Bevel/edge */}
             <span
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-2xl"
@@ -378,22 +394,6 @@ export default function Navbar() {
                   "radial-gradient(100% 100% at 50% 50%, transparent 58%, #000 60%)",
                 mixBlendMode: "screen",
                 opacity: 0.7,
-              }}
-            />
-
-            {/* Sheen lateral (bisel en borde sup/izq) */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-2xl"
-              style={{
-                background:
-                  "conic-gradient(from 210deg at 12% 0%, rgba(255,255,255,0.35), rgba(255,255,255,0) 20%)",
-                maskImage:
-                  "radial-gradient(80% 120% at 8% 0%, #000 0%, transparent 60%), linear-gradient(#000,#000)",
-                WebkitMaskComposite: "xor",
-                maskComposite: "exclude",
-                mixBlendMode: "screen",
-                opacity: 0.5,
               }}
             />
 
@@ -428,7 +428,7 @@ export default function Navbar() {
               </Link>
 
               <div className={`flex items-center gap-6 text-sm font-medium transition-colors ${textColorClass}`}>
-                {navigation.map((item) => (
+                {links.map((item) => (
                   <Link key={item.href} href={item.href} className="transition hover:opacity-80">
                     {item.label}
                   </Link>
