@@ -5,7 +5,7 @@ import HorizontalCarousel from "./HorizontalCarousel";
 
 interface Props {
   section: PortfolioSection;
-    anchorId?: string;
+  anchorId?: string;
 }
 
 function formatInstagramDescription(caption: string | null): { title: string; description: string } {
@@ -64,33 +64,37 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
         <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
       </header>
 
-        {isIllustrationSection ? (
-          <HorizontalCarousel ariaLabel="Carrusel de ilustraciones">
-            {projectsToRender.map((project) => (
-              <ProyectoCard key={project.slug} project={project} />
-            ))}
-          </HorizontalCarousel>
-        ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {projectsToRender.map((project) => (
-              <ProyectoCard key={project.slug} project={project} />
-            ))}
-          </div>
-        )}
+      {isIllustrationSection ? (
+        <HorizontalCarousel ariaLabel="Carrusel de ilustraciones">
+          {projectsToRender.map((project) => (
+            <ProyectoCard
+              key={project.slug}
+              project={project}
+              squareMedia
+            />
+          ))}
+        </HorizontalCarousel>
+      ) : (
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {projectsToRender.map((project) => (
+            <ProyectoCard key={project.slug} project={project} />
+          ))}
+        </div>
+      )}
 
-        {shouldUseInstagram ? (
-          <div className="text-center sm:text-right">
-            <a
-              href={INSTAGRAM_PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-gray-600 transition hover:text-black"
-            >
-              Ver más en Instagram
-              <span aria-hidden className="text-base leading-none">↗</span>
-            </a>
-          </div>
-        ) : null}
+ {shouldUseInstagram ? (
+        <div className="text-center sm:text-right">
+          <a
+            href={INSTAGRAM_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-gray-600 transition hover:text-black"
+          >
+            Ver más en Instagram
+            <span aria-hidden className="text-base leading-none">↗</span>
+          </a>
+        </div>
+      ) : null}
     </section>
   );
 }

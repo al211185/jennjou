@@ -17,7 +17,7 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
 
   const media = cover ? (
     squareMedia ? (
-      <div className="relative w-full aspect-square overflow-hidden">
+      <div className="relative aspect-square w-full overflow-hidden">
         <Image
           src={cover}
           alt={title}
@@ -35,6 +35,10 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
         className="h-48 w-full object-cover transition duration-500 group-hover:scale-105"
       />
     )
+      ) : squareMedia ? (
+    <div className="flex aspect-square w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+      Imagen próximamente
+    </div>
   ) : (
     <div className="flex h-48 w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
       Imagen próximamente
