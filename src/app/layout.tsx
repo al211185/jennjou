@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="snap-y snap-mandatory">
+    <html lang="es" className="snap-y snap-proximity">
       <body className="flex min-h-screen flex-col bg-[#e2e2e2] text-black antialiased scroll-pt-28">
         <Navbar />
         <main className="flex-1 w-full px-6 pb-16 lg:px-0">{children}</main>

@@ -32,7 +32,7 @@ export default function InstagramGrid({ posts, profileUrl }: Props) {
               href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex aspect-square flex-col overflow-hidden rounded-3xl border border-black bg-white transition hover:-translate-y-1 hover:shadow-xl"
+  className="group relative flex aspect-square flex-col overflow-hidden rounded-3xl border border-black bg-black/5 transition hover:-translate-y-1 hover:bg-black/10 hover:shadow-xl"
               aria-label={label}
             >
               <Image

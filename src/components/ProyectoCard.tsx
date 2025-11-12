@@ -13,7 +13,7 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
   const isExternal = /^https?:\/\//.test(href);
 
   const cardClassName =
-    "group flex h-full flex-col overflow-hidden rounded-3xl border border-black bg-white transition hover:-translate-y-1 hover:bg-gray-100";
+    "group flex h-full flex-col overflow-hidden rounded-3xl border border-black bg-black/5 transition hover:-translate-y-1 hover:bg-black/10";
 
   const media = cover ? (
     squareMedia ? (
@@ -35,12 +35,12 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
         className="h-48 w-full object-cover transition duration-500 group-hover:scale-105"
       />
     )
-      ) : squareMedia ? (
-    <div className="flex aspect-square w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+  ) : squareMedia ? (
+    <div className="flex aspect-square w-full items-center justify-center bg-black/10 text-sm text-gray-600">
       Imagen próximamente
     </div>
   ) : (
-    <div className="flex h-48 w-full items-center justify-center bg-gray-100 text-sm text-gray-500">
+    <div className="flex h-48 w-full items-center justify-center bg-black/10 text-sm text-gray-600">
       Imagen próximamente
     </div>
   );

@@ -210,27 +210,27 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
         ))}
       </div>
 
-      {/* Controls */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2">
-        <button
-          type="button"
-          onClick={() => byOneCard(-1)}
-          disabled={!hasMultipleCards}
-          className="pointer-events-auto rounded-full border border-black bg-white px-3 py-2 text-sm disabled:opacity-40"
-          aria-label="Anterior"
-        >
-          ←
-        </button>
-        <button
-          type="button"
-          onClick={() => byOneCard(1)}
-          disabled={!hasMultipleCards}
-          className="pointer-events-auto rounded-full border border-black bg-white px-3 py-2 text-sm disabled:opacity-40"
-          aria-label="Siguiente"
-        >
-          →
-        </button>
-      </div>
+        {/* Controls */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2">
+          <button
+            type="button"
+            onClick={() => byOneCard(-1)}
+            disabled={!hasMultipleCards}
+            className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
+            aria-label="Anterior"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={() => byOneCard(1)}
+            disabled={!hasMultipleCards}
+            className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
+            aria-label="Siguiente"
+          >
+            →
+          </button>
+        </div>
     </div>
   );
 }

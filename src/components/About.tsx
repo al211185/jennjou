@@ -2,9 +2,9 @@ export default function About() {
   return (
     <section
       id="sobre-mi"
-       className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center overflow-hidden rounded-3xl border border-black bg-white px-8 py-20 scroll-mt-32 snap-start"
+      className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center overflow-hidden rounded-3xl border border-black px-8 py-20 scroll-mt-32 snap-start"
     >
-      <div className="mx-auto max-w-3xl space-y-6 text-center"> 
+      <div className="mx-auto max-w-3xl space-y-6 text-center">
         <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mí</h2>
         <p className="text-lg leading-relaxed text-gray-700">
           Soy Jennjou, directora creativa y desarrolladora front-end. Diseño ecosistemas visuales que viven tanto en la pantalla
