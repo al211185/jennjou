@@ -12,12 +12,9 @@ export default function Home() {
       <Hero />
       <About />
 
-      <section id="portfolio" className="mx-auto mt-24 max-w-6xl space-y-20">
-        {portfolioSections.map((section) => (
-          <PortfolioSection key={section.id} section={section} />
-        ))}
-      </section>
-
+      {portfolioSections.map((section) => (
+        <PortfolioSection key={section.id} section={section} />
+      ))}
       <Contact />
     </>
   );
