@@ -23,6 +23,7 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
   const [isReady, setIsReady] = useState(!hasMultipleCards);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartScrollRef = useRef(0);
+  const isLoopAdjustingRef = useRef(false);
 
   const extendedChildren = useMemo(() => {
     if (!hasMultipleCards) {
@@ -66,19 +67,28 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
 
   const syncLoopScroll = useCallback(() => {
     const el = scrollerRef.current;
-    if (!el || !hasMultipleCards) return;
+    if (!el || !hasMultipleCards || isLoopAdjustingRef.current) return;
 
     const spacing = getCardSpacing();
     if (spacing === 0) return;
 
     const totalRealCards = children.length;
-    const maxScrollBeforeLoop = spacing * (totalRealCards + 0.5);
-    const minScrollBeforeLoop = spacing * 0.5;
+    const totalScrollWidth = spacing * (totalRealCards + 1);
+    const epsilon = Math.min(spacing * 0.1, 48);
 
-    if (el.scrollLeft <= minScrollBeforeLoop) {
+    if (el.scrollLeft <= epsilon) {
+      isLoopAdjustingRef.current = true;
       el.scrollLeft += spacing * totalRealCards;
-    } else if (el.scrollLeft >= maxScrollBeforeLoop) {
+    } else if (el.scrollLeft >= totalScrollWidth - epsilon) {
+      isLoopAdjustingRef.current = true;
       el.scrollLeft -= spacing * totalRealCards;
+    }
+
+    
+    if (isLoopAdjustingRef.current) {
+      requestAnimationFrame(() => {
+        isLoopAdjustingRef.current = false;
+      });
     }
   }, [children.length, getCardSpacing, hasMultipleCards]);
 
@@ -179,8 +189,8 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
   return (
     <div className="relative">
       {/* Fade borders */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[var(--background)] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[var(--background)] to-transparent" />
 
       {/* Scroller */}
       <div
@@ -204,33 +214,33 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
               snap-start shrink-0
               w-[86vw] sm:w-[420px] lg:w-[520px]
             "
-          >
-            {child}
-          </div>
-        ))}
+            >
+              {child}
+            </div>
+          ))}
       </div>
 
-        {/* Controls */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2">
-          <button
-            type="button"
-            onClick={() => byOneCard(-1)}
-            disabled={!hasMultipleCards}
-            className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
-            aria-label="Anterior"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            onClick={() => byOneCard(1)}
-            disabled={!hasMultipleCards}
-            className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
-            aria-label="Siguiente"
-          >
-            →
-          </button>
-        </div>
+      {/* Controls */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2">
+        <button
+          type="button"
+          onClick={() => byOneCard(-1)}
+          disabled={!hasMultipleCards}
+          className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
+          aria-label="Anterior"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          onClick={() => byOneCard(1)}
+          disabled={!hasMultipleCards}
+          className="pointer-events-auto rounded-full border border-black bg-black/5 px-3 py-2 text-sm transition hover:bg-black/10 disabled:opacity-40"
+          aria-label="Siguiente"
+        >
+          →
+        </button>
+      </div>
     </div>
   );
 }

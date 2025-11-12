@@ -40,10 +40,10 @@ export default function Navbar() {
   // Tuning (look iOS-like)
   const TUNE = {
     scale: -34,        // desplazamiento sutil
-    outBlur: 0.25,     // suavizado de salida
+    outBlur: 2.5,     // suavizado de salida
     sat: 1.15,         // saturación del fondo atrapado
-    bright: 1.02,      // brillo general
-    radius: 18,        // radio del glass
+    bright: 1.00,      // brillo general
+    radius: 50,        // radio del glass
   };
 
   // Pointer hotspot
