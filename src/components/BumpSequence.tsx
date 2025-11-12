@@ -34,7 +34,7 @@ export default function BumpSequence() {
   return (
     <section
       aria-label="Secuencia de imágenes destacadas"
-    className="relative flex min-h-screen w-full items-center justify-center overflow-hidden border-y border-black/5 bg-black/5 snap-start"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden border-y border-black bg-black/5 snap-start"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.35),_transparent_65%)]" aria-hidden />
       <div className="relative mx-auto w-full max-w-6xl aspect-[16/9] lg:aspect-[16/5.5]">
