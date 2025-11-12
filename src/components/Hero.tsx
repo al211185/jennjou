@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-   className="relative isolate mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center overflow-hidden rounded-3xl border border-black px-8 py-24 text-center shadow-[0_35px_120px_-80px_rgba(0,0,0,0.55)] scroll-mt-32 snap-start"
+            className="relative isolate mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center overflow-hidden border-y border-black px-8 py-24 text-center shadow-[0_35px_120px_-80px_rgba(0,0,0,0.55)] scroll-mt-32 snap-start"
     >
       <div className="mx-auto max-w-3xl space-y-6">
         <p className="text-sm uppercase tracking-[0.4em] text-gray-500">

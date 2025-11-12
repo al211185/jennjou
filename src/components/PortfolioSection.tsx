@@ -56,7 +56,7 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
     <section
       id={sectionId}
       data-section-id={section.id}
-      className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center space-y-10 rounded-3xl border border-black px-8 py-20 scroll-mt-32 snap-start"
+       className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center space-y-10 border-y border-black px-8 py-20 scroll-mt-32 snap-start"
     >
       <header className="space-y-2 text-center sm:text-left">
         <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Portfolio</p>
