@@ -2,7 +2,7 @@ export default function About() {
   return (
     <section
       id="sobre-mi"
-      className="relative min-h-screen w-full border-y border-black scroll-mt-32 snap-start"
+      className="relative flex min-h-screen w-full items-center border-y border-black scroll-mt-32 snap-start"
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-center overflow-hidden px-8 py-20">
         <div className="mx-auto max-w-3xl space-y-6 text-center">
