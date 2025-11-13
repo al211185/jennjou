@@ -8,9 +8,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import useEmblaCarousel, {
-  type EmblaCarouselType,
-} from "embla-carousel-react";
+import useEmblaCarousel from "embla-carousel-react";
+import type { EmblaCarouselType } from "embla-carousel";
+
 
 interface Props {
   children: ReactNode[];
