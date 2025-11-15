@@ -52,52 +52,52 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
   const projectsToRender = shouldUseInstagram ? instagramProjects : section.projects;
   const sectionId = anchorId ?? section.id;
 
-return (
-  <section
-    id={sectionId}
-    data-section-id={section.id}
-    className="min-h-screen w-full border-y border-black scroll-mt-32 snap-start"
-  >
-    <div className="mx-auto flex max-w-6xl flex-col justify-center space-y-10 px-8 py-20">
-      <header className="space-y-2 text-center sm:text-left">
-        <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Portfolio</p>
-        <h3 className="text-2xl font-semibold sm:text-3xl">{section.title}</h3>
-        <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
-      </header>
+  return (
+    <section
+      id={sectionId}
+      data-section-id={section.id}
+      data-fullpage-section
+      className="flex h-screen w-full items-center justify-center border-y border-black"
+    >
+      <div className="mx-auto flex max-w-6xl flex-col justify-center space-y-10 px-8 py-20">
+        <header className="space-y-2 text-center sm:text-left">
+          <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Portfolio</p>
+          <h3 className="text-2xl font-semibold sm:text-3xl">{section.title}</h3>
+          <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
+        </header>
 
-      {isIllustrationSection ? (
-        <HorizontalCarousel ariaLabel="Carrusel de ilustraciones">
-          {projectsToRender.map((project) => (
-            <ProyectoCard
-              key={project.slug}
-              project={project}
-              squareMedia
-            />
-          ))}
-        </HorizontalCarousel>
-      ) : (
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {projectsToRender.map((project) => (
-            <ProyectoCard key={project.slug} project={project} />
-          ))}
-        </div>
-      )}
+        {isIllustrationSection ? (
+          <HorizontalCarousel ariaLabel="Carrusel de ilustraciones">
+            {projectsToRender.map((project) => (
+              <ProyectoCard
+                key={project.slug}
+                project={project}
+                squareMedia
+              />
+            ))}
+          </HorizontalCarousel>
+        ) : (
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {projectsToRender.map((project) => (
+              <ProyectoCard key={project.slug} project={project} />
+            ))}
+          </div>
+        )}
 
-      {shouldUseInstagram ? (
-        <div className="text-center sm:text-right">
-          <a
-            href={INSTAGRAM_PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-gray-600 transition hover:text-black"
-          >
-            Ver más en Instagram
-            <span aria-hidden className="text-base leading-none">↗</span>
-          </a>
-        </div>
-      ) : null}
-    </div>
-  </section>
-);
-
+        {shouldUseInstagram ? (
+          <div className="text-center sm:text-right">
+            <a
+              href={INSTAGRAM_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-gray-600 transition hover:text-black"
+            >
+              Ver más en Instagram
+              <span aria-hidden className="text-base leading-none">↗</span>
+            </a>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
 }

@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import FullPageScrollManager from "../components/FullPageScrollManager";
 
 export const metadata = {
     metadataBase: new URL(
@@ -17,8 +18,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="snap-y snap-proximity">
-      <body className="flex min-h-screen flex-col bg-[#e2e2e2] text-black antialiased scroll-pt-28">
+    <html lang="es">
+      <body className="flex min-h-screen flex-col bg-[#e2e2e2] text-black antialiased">
+        <FullPageScrollManager />
         <Navbar />
         <main className="flex-1 w-full px-6 pb-16 lg:px-0">{children}</main>
         <Footer />

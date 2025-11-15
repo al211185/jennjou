@@ -4,6 +4,31 @@
 @tailwind utilities;
 
 
+html,
+body {
+  height: 100%;
+}
+
+body.fullpage-active {
+  overflow: hidden;
+}
+
+[data-fullpage-section] {
+  transition: opacity 0.8s ease;
+}
+
+body.fullpage-active [data-fullpage-section] {
+  opacity: 0;
+}
+
+body:not(.fullpage-ready) [data-fullpage-section] {
+  opacity: 1;
+}
+
+body.fullpage-ready [data-fullpage-section].is-visible {
+  opacity: 1;
+}
+
 :root {
   --background: #e2e2e2;
   --foreground: #0a0a0a;
