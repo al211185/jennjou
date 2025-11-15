@@ -46,22 +46,34 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   );
 
+    const instagramTags = tags.filter((tag) => tag.toLowerCase() === "instagram");
+
   const content = (
     <>
       {media}
-      <div className="flex flex-1 flex-col gap-4 p-6 text-left">
+      <div
+        className={
+          squareMedia
+            ? "flex flex-1 flex-col gap-3 p-4 text-left"
+            : "flex flex-1 flex-col gap-4 p-6 text-left"
+        }
+      >
         <h3 className="text-xl font-semibold text-black">{title}</h3>
-        <p className="text-sm leading-relaxed text-gray-600">{description}</p>
-        <ul className="mt-auto flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-full border border-black px-3 py-1 text-xs uppercase tracking-wider text-black"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
+        {squareMedia ? null : (
+          <p className="text-sm leading-relaxed text-gray-600">{description}</p>
+        )}
+        {(squareMedia ? instagramTags : tags).length > 0 ? (
+          <ul className="mt-auto flex flex-wrap gap-2">
+            {(squareMedia ? instagramTags : tags).map((tag) => (
+              <li
+                key={tag}
+                className="rounded-full border border-black px-3 py-1 text-xs uppercase tracking-wider text-black"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </>
   );
