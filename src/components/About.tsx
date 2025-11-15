@@ -3,17 +3,17 @@ export default function About() {
     <section
       id="sobre-mi"
       data-fullpage-section
-      className="relative flex h-screen w-full items-center justify-center border-y border-black"
+      className="relative flex h-screen w-full scroll-mt-32 items-center justify-center border-y border-black"
     >
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center overflow-hidden px-8 py-20">
-        <div className="mx-auto max-w-3xl space-y-6 text-center">
-          <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mí</h2>
-          <p className="text-lg leading-relaxed text-gray-700">
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center overflow-hidden px-6 py-16 sm:px-8">
+        <div className="mx-auto max-w-2xl space-y-5 text-center">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Sobre mí</h2>
+          <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
             Soy Jennjou, directora creativa y desarrolladora front-end. Diseño ecosistemas visuales que viven tanto en la pantalla
             como en piezas impresas. Me obsesiona la narrativa, la tecnología emergente y las sinergias entre música, cultura pop
             y estética digital.
           </p>
-          <p className="text-base text-gray-600">
+          <p className="text-sm text-gray-600 sm:text-base">
             Lidero proyectos de branding, diseño UI, ilustración editorial y motion graphics; colaboro con equipos multidisciplinarios
             para lanzar productos con identidad propia y experiencias que sorprenden.
           </p>

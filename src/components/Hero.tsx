@@ -3,17 +3,17 @@ export default function Hero() {
     <section
       id="inicio"
       data-fullpage-section
-      className="relative isolate flex h-screen w-full items-center justify-center border-y border-black"
+      className="relative isolate flex h-screen w-full scroll-mt-32 items-center justify-center border-y border-black"
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-center px-8 py-24 text-center">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <p className="text-sm uppercase tracking-[0.4em] text-gray-500">
+      <div className="mx-auto flex max-w-5xl items-center justify-center px-6 py-16 text-center sm:px-8">
+        <div className="mx-auto max-w-2xl space-y-5">
+          <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
             Jennjou Studio
           </p>
-          <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
+          <h1 className="text-3xl font-bold leading-tight sm:text-5xl">
             Diseño visual, desarrollo web y experiencias inmersivas con ADN hyperpop
           </h1>
-          <p className="text-lg text-gray-700 sm:text-xl">
+          <p className="text-base text-gray-700 sm:text-lg">
             Combino ilustración, 3D, motion graphics y código para construir marcas vibrantes y productos digitales memorables.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">

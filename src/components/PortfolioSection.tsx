@@ -57,13 +57,13 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
       id={sectionId}
       data-section-id={section.id}
       data-fullpage-section
-      className="flex h-screen w-full items-center justify-center border-y border-black"
+      className="flex h-screen w-full scroll-mt-32 items-center justify-center border-y border-black"
     >
-      <div className="mx-auto flex max-w-6xl flex-col justify-center space-y-10 px-8 py-20">
-        <header className="space-y-2 text-center sm:text-left">
-          <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Portfolio</p>
-          <h3 className="text-2xl font-semibold sm:text-3xl">{section.title}</h3>
-          <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
+      <div className="mx-auto flex max-w-5xl flex-col justify-center space-y-8 px-6 py-16 sm:px-8">
+        <header className="space-y-1.5 text-center sm:text-left">
+          <p className="text-[0.7rem] uppercase tracking-[0.35em] text-gray-500">Portfolio</p>
+          <h3 className="text-xl font-semibold sm:text-2xl">{section.title}</h3>
+          <p className="text-sm text-gray-600 sm:max-w-2xl sm:text-base">{section.description}</p>
         </header>
 
         {isIllustrationSection ? (
