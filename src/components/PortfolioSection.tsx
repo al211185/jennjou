@@ -59,7 +59,7 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
       data-fullpage-section
       className="flex h-screen w-full items-center justify-center border-y border-black"
     >
-      <div className="mx-auto flex max-w-6xl flex-col justify-center space-y-10 px-8 py-20">
+      <div className="mx-auto flex max-w-6xl flex-col justify-center space-y-8 px-8 py-16">
         <header className="space-y-2 text-center sm:text-left">
           <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Portfolio</p>
           <h3 className="text-2xl font-semibold sm:text-3xl">{section.title}</h3>

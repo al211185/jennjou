@@ -13,7 +13,7 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
   const isExternal = /^https?:\/\//.test(href);
 
   const cardClassName =
-    "group flex h-full min-h-[420px] flex-col overflow-hidden rounded-3xl border border-black bg-black/5 transition hover:-translate-y-1 hover:bg-black/10";
+    "group flex h-full min-h-[360px] flex-col overflow-hidden rounded-3xl border border-black bg-black/5 transition hover:-translate-y-1 hover:bg-black/10";
 
 
   const media = cover ? (
