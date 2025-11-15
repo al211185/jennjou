@@ -2,7 +2,8 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate min-h-screen w-full border-y border-black scroll-mt-32 snap-start"
+      data-fullpage-section
+      className="relative isolate flex h-screen w-full items-center justify-center border-y border-black"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-center px-8 py-24 text-center">
         <div className="mx-auto max-w-3xl space-y-6">

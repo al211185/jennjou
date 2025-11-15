@@ -17,7 +17,8 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="w-full border-y border-black scroll-mt-32 snap-start"
+      data-fullpage-section
+      className="flex h-screen w-full items-center justify-center border-y border-black"
     >
       <div className="mx-auto max-w-6xl px-8 py-20 text-center">
         <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Contacto</p>
