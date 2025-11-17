@@ -466,11 +466,23 @@ export default function Navbar() {
               </Link>
 
               <div className={`flex items-center gap-6 text-sm font-medium transition-colors ${textColorClass}`}>
-                {links.map((item) => (
-                  <Link key={item.href} href={item.href} className="transition hover:opacity-80">
-                    {item.label}
-                  </Link>
-                ))}
+                {links.map((item) => {
+                  const isHashLink = isHome && item.href.startsWith("#");
+
+                  if (isHashLink) {
+                    return (
+                      <a key={item.href} href={item.href} className="transition hover:opacity-80">
+                        {item.label}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <Link key={item.href} href={item.href} className="transition hover:opacity-80">
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
