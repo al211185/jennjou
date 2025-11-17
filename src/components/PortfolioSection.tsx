@@ -1,6 +1,6 @@
 import ProyectoCard from "./ProyectoCard";
 import type { PortfolioSection, Project } from "@/data/projects";
-import { fetchInstagramMedia, INSTAGRAM_PROFILE_URL } from "@/lib/instagram";
+import { fetchInstagramMedia } from "@/lib/instagram";
 import HorizontalCarousel from "./HorizontalCarousel";
 
 interface Props {

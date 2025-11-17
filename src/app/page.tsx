@@ -12,8 +12,12 @@ export default function Home() {
       <Hero />
       <About />
 
-      {portfolioSections.map((section) => (
-        <PortfolioSection key={section.id} section={section} />
+      {portfolioSections.map((section, index) => (
+        <PortfolioSection
+          key={section.id}
+          section={section}
+          anchorId={index === 0 ? "portfolio" : undefined}
+        />
       ))}
       <Contact />
     </>
