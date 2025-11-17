@@ -14,6 +14,7 @@ export interface Project {
   description: string;
   category: ProjectCategory;
   demoUrl?: string;
+  youtubeId?: string;
 }
 
 export const projects: Project[] = [
@@ -92,12 +93,14 @@ export const projects: Project[] = [
   },
   {
     slug: "after-effects-creditos",
-    title: "Secuencia de créditos Hyperdrive",
+    title: "Be My Angel - Concept Trailer",
     cover: "/images/ejemplo.jpg",
     tags: ["After Effects", "Motion Graphics", "Kinetic Type"],
     description:
-      "Dirección y animación de una pieza tipográfica cinética que mezcla glitches analógicos con gradients cromáticos.",
+      "Dirección y animación de una pieza de animación 2D basado en el concept game Be My Angel",
     category: "motion-after-effects",
+    demoUrl: "https://youtu.be/0TSC1JwIKmc",
+    youtubeId: "0TSC1JwIKmc",
   },
   {
     slug: "after-effects-brand-reveal",
@@ -107,6 +110,8 @@ export const projects: Project[] = [
     description:
       "Animación de presentación de marca con partículas programadas y sincronización precisa con banda sonora original.",
     category: "motion-after-effects",
+    demoUrl: "https://youtu.be/gx81Hf6j-8g",
+    youtubeId: "gx81Hf6j-8g",
   },
   {
     slug: "flyers-hyperpop-tour",

@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function ProyectoCard({ project, squareMedia = false }: Props) {
-  const { title, slug, cover, tags, description, demoUrl } = project;
+  const { title, slug, cover, tags, description, demoUrl, youtubeId } = project;
   const href = demoUrl ?? `/proyectos/${slug}`;
   const isExternal = /^https?:\/\//.test(href);
 
@@ -19,35 +19,57 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     : `${baseCardClassName} min-h-[360px]`;
 
 
-  const media = cover ? (
-    squareMedia ? (
-      <div className="relative aspect-square w-full overflow-hidden">
-        <Image
-          src={cover}
-          alt={title}
-          fill
-          sizes="(min-width:1024px) 460px, (min-width:640px) 380px, 86vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+  const youtubeEmbed = youtubeId ? (
+    <div className="relative w-full overflow-hidden bg-black">
+      <div className="relative aspect-video w-full">
+        <iframe
+          src={`https://www.youtube.com/embed/${youtubeId}`}
+          title={`Video de ${title}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          className="absolute inset-0 h-full w-full"
         />
       </div>
-    ) : (
-      <Image
-        src={cover}
-        alt={title}
-        width={640}
-        height={400}
-        className="w-full aspect-[4/3] object-cover transition duration-500 group-hover:scale-105"
-      />
-    )
-  ) : squareMedia ? (
-    <div className="flex aspect-square w-full items-center justify-center bg-black/10 text-sm text-gray-600">
-      Imagen próximamente
     </div>
-  ) : (
-    <div className="flex h-48 w-full items-center justify-center bg-black/10 text-sm text-gray-600">
-      Imagen próximamente
-    </div>
-  );
+ ) : null;
+
+  const media = youtubeEmbed
+    ? youtubeEmbed
+    : cover
+      ? squareMedia
+        ? (
+            <div className="relative aspect-square w-full overflow-hidden">
+              <Image
+                src={cover}
+                alt={title}
+                fill
+                sizes="(min-width:1024px) 460px, (min-width:640px) 380px, 86vw"
+                className="object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
+          )
+        : (
+            <Image
+              src={cover}
+              alt={title}
+              width={640}
+              height={400}
+              className="w-full aspect-[4/3] object-cover transition duration-500 group-hover:scale-105"
+            />
+          )
+      : squareMedia
+        ? (
+            <div className="flex aspect-square w-full items-center justify-center bg-black/10 text-sm text-gray-600">
+              Imagen próximamente
+            </div>
+          )
+        : (
+            <div className="flex h-48 w-full items-center justify-center bg-black/10 text-sm text-gray-600">
+              Imagen próximamente
+            </div>
+          );
 
     const instagramTags = tags.filter((tag) => tag.toLowerCase() === "instagram");
 
