@@ -3,7 +3,6 @@ import type { InstagramMediaItem } from "@/lib/instagram";
 
 interface Props {
   posts: InstagramMediaItem[];
-  profileUrl?: string;
 }
 
 function formatCaption(caption: string | null): string {
@@ -19,7 +18,7 @@ function formatCaption(caption: string | null): string {
   return `${firstLine.slice(0, 97)}...`;
 }
 
-export default function InstagramGrid({ posts, profileUrl }: Props) {
+export default function InstagramGrid({ posts }: Props) {
   return (
     <>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

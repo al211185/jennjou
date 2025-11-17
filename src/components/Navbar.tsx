@@ -4,6 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, MouseEvent, useState } from "react";
+import type { CSSProperties } from "react";
 import { usePathname } from "next/navigation";
 
 const navigation = [
@@ -12,6 +13,11 @@ const navigation = [
   { href: "#portfolio", label: "Portfolio" },
   { href: "#contacto", label: "Contacto" },
 ];
+
+type GlassStyle = CSSProperties & {
+  "--glass-x": string;
+  "--glass-y": string;
+};
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -25,8 +31,8 @@ export default function Navbar() {
   const shellRef = useRef<HTMLDivElement>(null);
 
   // SVG filter nodes
-  const filterRef = useRef<SVGFilterElement>(null);
-  const feImageRef = useRef<SVGImageElement>(null);
+  const filterRef = useRef<SVGFilterElement | null>(null);
+  const feImageRef = useRef<SVGImageElement | null>(null);
 
   // Pointer throttle
   const rafRef = useRef<number | null>(null);
@@ -36,6 +42,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState<boolean>(() => !isHome);
   const [scrollProgress, setScrollProgress] = useState<number>(() => (isHome ? 0 : 1));
   const [isBackgroundLight, setIsBackgroundLight] = useState(false);
+  const [isNavHidden, setIsNavHidden] = useState(false);
 
   // Tuning (look iOS-like)
   const TUNE = {
@@ -243,7 +250,34 @@ export default function Navbar() {
     build(Math.max(1, Math.floor(r.width)), Math.max(1, Math.floor(r.height)), TUNE.radius);
 
     return () => ro.disconnect();
-  }, []);
+  }, [TUNE.radius]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const deltaThreshold = 6;
+    const hideThreshold = 120;
+
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY;
+      lastScrollY = currentY;
+
+      if (currentY <= hideThreshold) {
+        setIsNavHidden(false);
+        return;
+      }
+
+      if (delta > deltaThreshold) {
+        setIsNavHidden(true);
+      } else if (delta < -deltaThreshold) {
+        setIsNavHidden(false);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
 
   // Hero logo interp (solo se usa cuando isHome=true)
   const heroScale = 1.3 - 0.55 * scrollProgress;
@@ -262,7 +296,7 @@ export default function Navbar() {
             ref={filterRef}
             x="-10%" y="-30%" width="120%" height="200%"
           >
-            <feImage x="0" y="0" width="100%" height="100%" result="map" ref={feImageRef as any} />
+            <feImage x="0" y="0" width="100%" height="100%" result="map" ref={feImageRef} />
             <feGaussianBlur in="map" stdDeviation="0.5" result="mapSoft"/>
             <feDisplacementMap
               in="SourceGraphic"
@@ -306,7 +340,11 @@ export default function Navbar() {
         </div>
       )}
 
-      <nav className="fixed top-0 z-50 w-full">
+      <nav
+        className={`fixed top-0 z-50 w-full transform-gpu transition-transform duration-300 ease-out ${
+          isNavHidden ? "-translate-y-full" : "translate-y-0"
+        }`}
+      >
         <div className="px-6 py-3 lg:px-12">
           <div
             ref={shellRef}
@@ -329,11 +367,11 @@ export default function Navbar() {
             style={{
               backdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
               WebkitBackdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
-              ["--glass-x" as any]: "50%",
-              ["--glass-y" as any]: "50%",
+              "--glass-x": "50%",
+              "--glass-y": "50%",
               willChange: "backdrop-filter, transform",
               transform: "translateZ(0)",
-            }}
+            } satisfies GlassStyle}
           >
             {/* Distorsión focal */}
             <span
