@@ -28,7 +28,7 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
           {children.map((child, index) => (
             <div
               key={index}
-              className="flex-[0_0_60vw] shrink-0 sm:flex-[0_0_280px] md:flex-[0_0_320px] lg:flex-[0_0_360px]"
+              className="flex-[0_0_50vw] shrink-0 sm:flex-[0_0_240px] md:flex-[0_0_280px] lg:flex-[0_0_320px]"
             >
               {child}
             </div>

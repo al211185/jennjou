@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="mx-auto flex max-w-6xl items-center justify-center px-8 py-24 text-center">
         <div className="mx-auto max-w-3xl space-y-6">
           <p className="text-sm uppercase tracking-[0.4em] text-gray-500">
-            Jennjou Studio
+            Jennjou
           </p>
           <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
             Diseño visual, desarrollo web y experiencias inmersivas con ADN hyperpop

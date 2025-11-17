@@ -1,4 +1,26 @@
 export default function About() {
+  const software = [
+    "Adobe InDesign",
+    "Adobe Illustrator",
+    "Adobe After Effects",
+    "Android Studio",
+    "Figma",
+    "Procreate",
+    "Visual Studio",
+    "Visual Studio Code",
+    "Microsoft Office",
+  ];
+
+  const technologies = [
+    "ASP .NET 5.0 y 9.0",
+    "Vite",
+    "Node.js",
+    "React",
+    "Tailwinds",
+    "Github",
+    "MongoDB",
+  ];
+
   return (
     <section
       id="sobre-mi"
@@ -7,32 +29,56 @@ export default function About() {
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-center overflow-hidden px-8 py-20">
         <div className="mx-auto max-w-3xl space-y-6 text-center">
-          <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mí</h2>
+          <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mííí</h2>
+
           <p className="text-lg leading-relaxed text-gray-700">
-            Soy Jennjou, directora creativa y desarrolladora front-end. Diseño ecosistemas visuales que viven tanto en la pantalla
-            como en piezas impresas. Me obsesiona la narrativa, la tecnología emergente y las sinergias entre música, cultura pop
-            y estética digital.
+            Diseñador Digital de Medios Interactivos
           </p>
-          <p className="text-base text-gray-600">
-            Lidero proyectos de branding, diseño UI, ilustración editorial y motion graphics; colaboro con equipos multidisciplinarios
-            para lanzar productos con identidad propia y experiencias que sorprenden.
+
+          <p className="text-base text-gray-600 leading-relaxed">
+            Me considero una persona eficaz y creativa, siempre buscando nuevas
+            maneras de combinar arte y tecnología para contar historias
+            visuales únicas. Me inspiro en la cultura contemporánea del
+            hyperpop y en el arte experimental, intentando siempre estar a la
+            vanguardia. Desde enero he estado trabajando como freelancer,
+            desarrollando proyectos que abarcan ilustración, modelado 3D,
+            animación, diseño web y, este año, la programación de APIs en .NET
+            9.0. Aquí encontrarás una muestra de mi proceso y resultados:
+            bienvenidx a mi portafolio.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              "Dirección de arte",
-              "Design systems",
-              "React & Next.js",
-              "Blender",
-              "Adobe After Effects",
-              "Brand Storytelling",
-            ].map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-black px-4 py-1 text-sm text-black"
-              >
-                {skill}
-              </span>
-            ))}
+
+          <div className="mt-6 space-y-4">
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wide">
+                Software
+              </h3>
+              <div className="mt-2 flex flex-wrap justify-center gap-3">
+                {software.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-black px-4 py-1 text-sm text-black"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wide">
+                Tecnologías
+              </h3>
+              <div className="mt-2 flex flex-wrap justify-center gap-3">
+                {technologies.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-black px-4 py-1 text-sm text-black"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

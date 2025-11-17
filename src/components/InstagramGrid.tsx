@@ -50,20 +50,6 @@ export default function InstagramGrid({ posts, profileUrl }: Props) {
           );
         })}
       </div>
-      {profileUrl ? (
-        <div className="text-center sm:text-right">
-          <a
-            href={profileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.3em] text-gray-600 transition hover:text-black"
-            aria-label="Ver más trabajos en Instagram"
-          >
-            Ver más en Instagram
-            <span aria-hidden className="text-base leading-none">↗</span>
-          </a>
-        </div>
-      ) : null}
     </>
   );
 }
