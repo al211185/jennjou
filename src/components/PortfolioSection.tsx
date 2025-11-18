@@ -30,11 +30,13 @@ function formatInstagramDescription(caption: string | null): { title: string; de
 
 export default async function PortfolioSection({ section, anchorId }: Props) {
   const isIllustrationSection = section.id === "ilustracion";
+  const isModelingSection = section.id === "modelado-3d";
   const instagramPosts = isIllustrationSection ? await fetchInstagramMedia() : [];
   const imageOnlyInstagramPosts = instagramPosts.filter(
     (post) => post.mediaType === "IMAGE" || post.mediaType === "CAROUSEL_ALBUM"
   );
   const shouldUseInstagram = isIllustrationSection && imageOnlyInstagramPosts.length > 0;
+    const shouldUseCarousel = isIllustrationSection || isModelingSection;
 
   const instagramProjects: Project[] = imageOnlyInstagramPosts.map((post) => {
     const { title, description } = formatInstagramDescription(post.caption);
@@ -66,13 +68,13 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
           <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
         </header>
 
-        {isIllustrationSection ? (
-          <HorizontalCarousel ariaLabel="Carrusel de ilustraciones">
+        {shouldUseCarousel ? (
+          <HorizontalCarousel ariaLabel={`Carrusel de ${section.title.toLowerCase()}`}>
             {projectsToRender.map((project) => (
               <ProyectoCard
                 key={project.slug}
                 project={project}
-                squareMedia
+                squareMedia={isIllustrationSection}
               />
             ))}
           </HorizontalCarousel>
