@@ -25,9 +25,9 @@ export default function About() {
     <section
       id="sobre-mi"
       data-fullpage-section
-      className="relative flex h-screen w-full items-center justify-center border-y border-black"
+      className="relative flex min-h-screen w-full items-center justify-center border-y border-black px-4 py-16 sm:px-6"
     >
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center overflow-hidden px-8 py-20">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center overflow-hidden px-2 py-4 sm:px-4 sm:py-6">
         <div className="mx-auto max-w-3xl space-y-6 text-center">
           <h2 className="text-3xl font-semibold sm:text-4xl">Sobre mííí</h2>
 
@@ -35,7 +35,7 @@ export default function About() {
             Diseñador Digital de Medios Interactivos
           </p>
 
-          <p className="text-base text-gray-600 leading-relaxed">
+          <p className="text-base leading-relaxed text-gray-600">
             Me considero una persona eficaz y creativa, siempre buscando nuevas
             maneras de combinar arte y tecnología para contar historias
             visuales únicas. Me inspiro en la cultura contemporánea del

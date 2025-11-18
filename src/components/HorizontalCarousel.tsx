@@ -24,11 +24,11 @@ export default function HorizontalCarousel({ children, ariaLabel }: Props) {
       <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[var(--background)] to-transparent" />
 
       <div className="overflow-hidden" ref={emblaRef} aria-label={ariaLabel}>
-        <div className="flex gap-6 px-6 pb-4">
+        <div className="flex gap-4 px-2 pb-4 sm:gap-6 sm:px-6">
           {children.map((child, index) => (
             <div
               key={index}
-              className="flex-[0_0_50vw] shrink-0 sm:flex-[0_0_240px] md:flex-[0_0_280px] lg:flex-[0_0_320px]"
+              className="flex-[0_0_85vw] shrink-0 sm:flex-[0_0_260px] md:flex-[0_0_280px] lg:flex-[0_0_320px]"
             >
               {child}
             </div>
