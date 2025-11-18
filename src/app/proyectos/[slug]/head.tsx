@@ -17,6 +17,9 @@ export default function Head({ params }: HeadProps) {
     );
   }
 
+    const ogImage = project.cover ?? "/images/logo.png";
+
+
   return (
     <>
       <title>{`${project.title} | Jennjou`}</title>
@@ -25,7 +28,7 @@ export default function Head({ params }: HeadProps) {
       {/* Open Graph */}
       <meta property="og:title" content={`${project.title} | Jennjou`} />
       <meta property="og:description" content={project.description} />
-      <meta property="og:image" content={project.cover} />
+      <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={project.title} />

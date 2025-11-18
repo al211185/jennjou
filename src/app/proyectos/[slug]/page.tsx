@@ -19,13 +19,16 @@ export async function generateMetadata({ params: { slug } }: Props) {
     };
   }
 
+  const ogImage = project.cover ?? "/images/logo.png";
+
+
   return {
     title: `${project.title} | Jennjou`,
     description: project.description,
     openGraph: {
       images: [
         {
-          url: project.cover,
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: project.title,
@@ -42,6 +45,63 @@ export default function ProjectPage({ params: { slug } }: Props) {
 
   const categoryLabel = categoryTitles[project.category];
 
+  const media = project.youtubeId ? (
+    <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-black">
+      <div className="relative aspect-video w-full">
+        <iframe
+          src={`https://www.youtube.com/embed/${project.youtubeId}`}
+          title={`Video de ${project.title}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          className="absolute inset-0 h-full w-full"
+        />
+      </div>
+    </div>
+  ) : project.videoSrc ? (
+    <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-black">
+      <div className="relative aspect-video w-full">
+        <video
+          src={project.videoSrc}
+          controls
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+    </div>
+  ) : project.sketchfabModelId ? (
+    <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-black">
+      <div className="relative aspect-video w-full">
+        <iframe
+          src={`https://sketchfab.com/models/${project.sketchfabModelId}/embed`}
+          title={`Modelo 3D de ${project.title}`}
+          allow="autoplay; fullscreen; xr-spatial-tracking"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      </div>
+    </div>
+  ) : project.cover ? (
+    <div className="overflow-hidden rounded-3xl border border-zinc-800">
+      <Image
+        src={project.cover}
+        alt={project.title}
+        width={1200}
+        height={720}
+        className="h-auto w-full object-cover"
+      />
+    </div>
+  ) : (
+    <div className="rounded-3xl border border-dashed border-zinc-700 bg-zinc-900/40 p-8 text-center text-zinc-400">
+      Recurso visual próximamente
+    </div>
+  );
+
+
   return (
     <article className="mx-auto max-w-4xl py-16">
       <div className="space-y-4">
@@ -50,15 +110,7 @@ export default function ProjectPage({ params: { slug } }: Props) {
         <p className="text-base text-zinc-400">{project.description}</p>
       </div>
 
-      <div className="mt-10 overflow-hidden rounded-3xl border border-zinc-800">
-        <Image
-          src={project.cover}
-          alt={project.title}
-          width={1200}
-          height={720}
-          className="h-auto w-full object-cover"
-        />
-      </div>
+      <div className="mt-10">{media}</div>
 
       <div className="mt-8 flex flex-wrap gap-3">
         {project.tags.map((tag) => (

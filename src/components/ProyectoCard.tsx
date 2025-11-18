@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function ProyectoCard({ project, squareMedia = false }: Props) {
-  const { title, slug, cover, tags, description, demoUrl, youtubeId, sketchfabModelId } = project;
+  const { title, slug, cover, videoSrc, tags, description, demoUrl, youtubeId, sketchfabModelId } = project;
   const href = demoUrl ?? `/proyectos/${slug}`;
   const isExternal = /^https?:\/\//.test(href);
 
@@ -35,6 +35,21 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   ) : null;
 
+    const localVideo = videoSrc ? (
+    <div className="relative w-full overflow-hidden bg-black">
+      <div className="relative aspect-video w-full">
+        <video
+          src={videoSrc}
+          controls
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+    </div>
+  ) : null;
+
+
   const sketchfabEmbed = sketchfabModelId ? (
     <div className="relative w-full overflow-hidden bg-black">
       <div className="relative aspect-video w-full">
@@ -54,9 +69,11 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
 
   const media = youtubeEmbed
     ? youtubeEmbed
-    : sketchfabEmbed
-      ? sketchfabEmbed
-      : cover
+    : localVideo
+      ? localVideo
+      : sketchfabEmbed
+        ? sketchfabEmbed
+        : cover
         ? squareMedia
           ? (
             <div className="relative aspect-square w-full overflow-hidden">

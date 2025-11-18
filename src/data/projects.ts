@@ -9,7 +9,8 @@ export type ProjectCategory =
 export interface Project {
   slug: string;
   title: string;
-  cover: string;
+  cover?: string;
+  videoSrc?: string;
   tags: string[];
   description: string;
   category: ProjectCategory;
@@ -110,6 +111,15 @@ export const projects: Project[] = [
       "Still frame con minerales flotantes y reflejos anamorficos creado para una secuencia de título experimental.",
     category: "modelado-3d",
   },
+    {
+    slug: "modelado-3d-rendero-05",
+    title: "Video render · Rendero 05",
+    videoSrc: "/images/modelado/rendero-05.mkv",
+    tags: ["Blender", "Cycles", "Composición"],
+    description:
+      "Secuencia en movimiento que explora animación de cámara lenta, glow de neón y materiales iridiscentes renderizados en Cycles.",
+    category: "modelado-3d",
+  },
   {
     slug: "modelado-3d-sketchfab-guardian",
     title: "Modelo interactivo · Guardian Core",
@@ -147,7 +157,7 @@ export const projects: Project[] = [
   },
   {
     slug: "after-effects-brand-reveal",
-    title: "Brand Reveal Aurora",
+    title: "Mantra - Jennie",
     cover: "/images/ejemplo.jpg",
     tags: ["Branding", "Particle Systems"],
     description:
@@ -200,7 +210,7 @@ export const categoryTitles: Record<ProjectCategory, string> = {
   "desarrollo-web": "Desarrollo web",
   ilustracion: "Ilustraciones",
   "modelado-3d": "Modelado y render 3D",
-  "motion-after-effects": "Motion graphics · After Effects",
+  "motion-after-effects": "Motion graphics y animaciones",
   flyers: "Flyers & branding impreso",
 };
 
