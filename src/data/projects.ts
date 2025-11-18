@@ -15,6 +15,7 @@ export interface Project {
   category: ProjectCategory;
   demoUrl?: string;
   youtubeId?: string;
+  sketchfabModelId?: string;
 }
 
 export const projects: Project[] = [
@@ -117,7 +118,9 @@ export const projects: Project[] = [
     description:
       "Versión optimizada para WebGL del mecha Guardian Core con animaciones orbitales y materiales PBR.",
     category: "modelado-3d",
-    demoUrl: "https://skfb.ly/orvrK",
+    demoUrl:
+      "https://sketchfab.com/3d-models/isometricos-inspirados-en-as-if-its-your-last-9abfedb355174acfafe4d9b992c7984e",
+    sketchfabModelId: "9abfedb355174acfafe4d9b992c7984e",
   },
   {
     slug: "modelado-3d-sketchfab-haven",
@@ -127,7 +130,9 @@ export const projects: Project[] = [
     description:
       "Escena publicada en Sketchfab para recorridos 360° con assets listos para VR y bake de iluminación global.",
     category: "modelado-3d",
-    demoUrl: "https://skfb.ly/pvorq",
+    demoUrl:
+      "https://sketchfab.com/3d-models/actividad-c2-arjou-logo-7a82bac6b303435fb8e5ca075a08542f",
+    sketchfabModelId: "7a82bac6b303435fb8e5ca075a08542f",
   },
   {
     slug: "after-effects-creditos",
