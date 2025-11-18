@@ -35,7 +35,7 @@ export default function BumpSequence() {
     <section
       data-fullpage-section
       aria-label="Secuencia de imágenes destacadas"
-      className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden border-y border-black bg-black/5 px-4 py-12 sm:min-h-screen"
+           className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden border-y border-black bg-black/5 px-4 py-12 sm:min-h-screen"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.35),_transparent_65%)]" aria-hidden />
       <div className="relative mx-auto w-full max-w-6xl">
