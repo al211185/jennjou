@@ -2,13 +2,22 @@
 
 import { useEffect, useRef } from "react";
 
-const STROKE_COLOR = "rgba(20, 20, 20, 0.45)";
 const STROKE_WIDTH = 3;
+
+const generateRandomStrokeColor = () => {
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = 70;
+  const lightness = 45;
+  const alpha = 0.45;
+  return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+};
+
 
 export default function ChalkboardCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
   const sizeRef = useRef({ width: 0, height: 0 });
+  const strokeColorRef = useRef<string>(generateRandomStrokeColor());
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -42,7 +51,7 @@ export default function ChalkboardCanvas() {
       ctx.scale(pixelRatio, pixelRatio);
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
-      ctx.strokeStyle = STROKE_COLOR;
+      ctx.strokeStyle = strokeColorRef.current;
       ctx.lineWidth = STROKE_WIDTH;
     };
 
