@@ -4,7 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, MouseEvent, useState } from "react";
-import type { CSSProperties } from "react";
+import type React from "react";
 import { usePathname } from "next/navigation";
 
 const navigation = [
@@ -14,7 +14,7 @@ const navigation = [
   { href: "#contacto", label: "Contacto" },
 ];
 
-type GlassStyle = CSSProperties & {
+type GlassStyle = React.CSSProperties & {
   "--glass-x": string;
   "--glass-y": string;
 };
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   // SVG filter nodes
   const filterRef = useRef<SVGFilterElement | null>(null);
-  const feImageRef = useRef<SVGImageElement | null>(null);
+  const feImageRef = useRef<SVGFEImageElement | null>(null);
 
   // Pointer throttle
   const rafRef = useRef<number | null>(null);
@@ -40,18 +40,30 @@ export default function Navbar() {
 
   // UI state (inicializa "compacto" fuera de Home)
   const [isScrolled, setIsScrolled] = useState<boolean>(() => !isHome);
-  const [scrollProgress, setScrollProgress] = useState<number>(() => (isHome ? 0 : 1));
+  const [scrollProgress, setScrollProgress] = useState<number>(() =>
+    isHome ? 0 : 1
+  );
   const [isBackgroundLight, setIsBackgroundLight] = useState(false);
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Tuning (look iOS-like)
   const TUNE = {
-    scale: -34,        // desplazamiento sutil
-    outBlur: 2.5,     // suavizado de salida
-    sat: 1.15,         // saturación del fondo atrapado
-    bright: 1.00,      // brillo general
-    radius: 50,        // radio del glass
+    scale: -34, // desplazamiento sutil
+    outBlur: 2.5, // suavizado de salida
+    sat: 1.15, // saturación del fondo atrapado
+    bright: 1.0, // brillo general
+    radius: 50, // radio del glass
+  };
+
+  // Estilo base del shell con las CSS vars tipadas
+  const shellStyle: GlassStyle = {
+    backdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
+    WebkitBackdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
+    "--glass-x": "50%",
+    "--glass-y": "50%",
+    willChange: "backdrop-filter, transform",
+    transform: "translateZ(0)",
   };
 
   // Pointer hotspot
@@ -62,7 +74,11 @@ export default function Navbar() {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    if (Math.abs(x - lastXYRef.current.x) < 0.5 && Math.abs(y - lastXYRef.current.y) < 0.5) return;
+    if (
+      Math.abs(x - lastXYRef.current.x) < 0.5 &&
+      Math.abs(y - lastXYRef.current.y) < 0.5
+    )
+      return;
     lastXYRef.current = { x, y };
 
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
@@ -104,12 +120,16 @@ export default function Navbar() {
   // Background luminance sampler (para elegir color de texto)
   useEffect(() => {
     const parseColor = (input: string) => {
-      const m = input.match(/rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\)/);
+      const m = input.match(
+        /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\)/
+      );
       if (!m) return null;
       const [, r, g, b, a] = m;
       return { r: +r, g: +g, b: +b, a: a === undefined ? 1 : +a };
     };
-    const getOpaqueBg = (el: Element): [number, number, number] | null => {
+    const getOpaqueBg = (
+      el: Element
+    ): [number, number, number] | null => {
       const color = window.getComputedStyle(el).backgroundColor;
       if (!color || color === "transparent") return null;
       const p = parseColor(color);
@@ -132,8 +152,14 @@ export default function Navbar() {
       const xr = (x - rect.left) / rect.width;
       const yr = (y - rect.top) / rect.height;
       if (xr < 0 || xr > 1 || yr < 0 || yr > 1) return null;
-      const nw = media instanceof HTMLImageElement ? media.naturalWidth : media.videoWidth;
-      const nh = media instanceof HTMLImageElement ? media.naturalHeight : media.videoHeight;
+      const nw =
+        media instanceof HTMLImageElement
+          ? media.naturalWidth
+          : media.videoWidth;
+      const nh =
+        media instanceof HTMLImageElement
+          ? media.naturalHeight
+          : media.videoHeight;
       if (!nw || !nh) return null;
       const sx = Math.floor(xr * nw);
       const sy = Math.floor(yr * nh);
@@ -155,20 +181,26 @@ export default function Navbar() {
       const y = rect.top + rect.height / 2;
       const prev = shell.style.pointerEvents;
       shell.style.pointerEvents = "none";
-      const stack = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
+      const stack = document.elementsFromPoint
+        ? document.elementsFromPoint(x, y)
+        : [];
       shell.style.pointerEvents = prev;
 
       let rgb: [number, number, number] | null = null;
       for (const el of stack) {
         rgb = getOpaqueBg(el);
         if (rgb) break;
-        if (el instanceof HTMLImageElement || el instanceof HTMLVideoElement) {
+        if (
+          el instanceof HTMLImageElement ||
+          el instanceof HTMLVideoElement
+        ) {
           rgb = sampleMedia(el, x, y);
           if (rgb) break;
         }
       }
       const [r, g, b] = rgb ?? [255, 255, 255];
-      const brightness = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      const brightness =
+        (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
       setIsBackgroundLight(brightness >= 0.6);
     };
 
@@ -202,7 +234,6 @@ export default function Navbar() {
       const innerW = Math.max(1, w - pad * 2);
       const innerH = Math.max(1, h - pad * 2);
 
-      // Mapa con gradiente R/G + falloff, borde feather y leve “normal” de ruido
       const svg = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}">
   <defs>
@@ -232,7 +263,11 @@ export default function Navbar() {
   <rect x="${pad}" y="${pad}" width="${innerW}" height="${innerH}"
         rx="${radius}" fill="url(#fall)"/>
 </svg>`;
-      feImageRef.current!.setAttribute("href", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      feImageRef
+        .current!.setAttribute(
+          "href",
+          `data:image/svg+xml,${encodeURIComponent(svg)}`
+        );
     };
 
     let t: number | null = null;
@@ -241,14 +276,22 @@ export default function Navbar() {
         const cr = e.contentRect;
         if (t) cancelAnimationFrame(t);
         t = requestAnimationFrame(() =>
-          build(Math.max(1, Math.floor(cr.width)), Math.max(1, Math.floor(cr.height)), TUNE.radius)
+          build(
+            Math.max(1, Math.floor(cr.width)),
+            Math.max(1, Math.floor(cr.height)),
+            TUNE.radius
+          )
         );
       }
     });
     ro.observe(shell);
 
     const r = shell.getBoundingClientRect();
-    build(Math.max(1, Math.floor(r.width)), Math.max(1, Math.floor(r.height)), TUNE.radius);
+    build(
+      Math.max(1, Math.floor(r.width)),
+      Math.max(1, Math.floor(r.height)),
+      TUNE.radius
+    );
 
     return () => ro.disconnect();
   }, [TUNE.radius]);
@@ -302,14 +345,24 @@ export default function Navbar() {
 
     if (isHashLink) {
       return (
-        <a key={item.href} href={item.href} className={combinedClass} onClick={onClick}>
+        <a
+          key={item.href}
+          href={item.href}
+          className={combinedClass}
+          onClick={onClick}
+        >
           {item.label}
         </a>
       );
     }
 
     return (
-      <Link key={item.href} href={item.href} className={combinedClass} onClick={onClick}>
+      <Link
+        key={item.href}
+        href={item.href}
+        className={combinedClass}
+        onClick={onClick}
+      >
         {item.label}
       </Link>
     );
@@ -319,21 +372,42 @@ export default function Navbar() {
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
   const heroOpacity = 1 - scrollProgress;
-  const textColorClass = isBackgroundLight ? "text-neutral-900" : "text-white";
+  const textColorClass = isBackgroundLight
+    ? "text-neutral-900"
+    : "text-white";
 
   return (
     <>
       {/* SVG filter: single displacement (sin fringing) */}
-      <svg className="fixed pointer-events-none opacity-0" width="0" height="0" aria-hidden>
+      <svg
+        className="fixed pointer-events-none opacity-0"
+        width="0"
+        height="0"
+        aria-hidden
+      >
         <defs>
           <filter
             id="nav-displace"
             colorInterpolationFilters="sRGB"
             ref={filterRef}
-            x="-10%" y="-30%" width="120%" height="200%"
+            x="-10%"
+            y="-30%"
+            width="120%"
+            height="200%"
           >
-            <feImage x="0" y="0" width="100%" height="100%" result="map" ref={feImageRef} />
-            <feGaussianBlur in="map" stdDeviation="0.5" result="mapSoft"/>
+            <feImage
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              result="map"
+              ref={feImageRef}
+            />
+            <feGaussianBlur
+              in="map"
+              stdDeviation="0.5"
+              result="mapSoft"
+            />
             <feDisplacementMap
               in="SourceGraphic"
               in2="mapSoft"
@@ -343,13 +417,36 @@ export default function Navbar() {
               result="disp"
             />
             {/* desaturación + leve contraste para “crispness” tipo iOS */}
-            <feColorMatrix in="disp" type="saturate" values="0.8" result="desat"/>
+            <feColorMatrix
+              in="disp"
+              type="saturate"
+              values="0.8"
+              result="desat"
+            />
             <feComponentTransfer in="desat" result="curve">
-              <feFuncR type="gamma" amplitude="1" exponent="0.92" offset="0"/>
-              <feFuncG type="gamma" amplitude="1" exponent="0.92" offset="0"/>
-              <feFuncB type="gamma" amplitude="1" exponent="0.92" offset="0"/>
+              <feFuncR
+                type="gamma"
+                amplitude="1"
+                exponent="0.92"
+                offset="0"
+              />
+              <feFuncG
+                type="gamma"
+                amplitude="1"
+                exponent="0.92"
+                offset="0"
+              />
+              <feFuncB
+                type="gamma"
+                amplitude="1"
+                exponent="0.92"
+                offset="0"
+              />
             </feComponentTransfer>
-            <feGaussianBlur in="curve" stdDeviation={TUNE.outBlur}/>
+            <feGaussianBlur
+              in="curve"
+              stdDeviation={TUNE.outBlur}
+            />
           </filter>
         </defs>
       </svg>
@@ -362,7 +459,8 @@ export default function Navbar() {
           style={{
             transform: `translateY(${heroTranslateY}%) scale(${heroScale})`,
             opacity: heroOpacity,
-            transition: "transform 700ms ease-out, opacity 700ms ease-out",
+            transition:
+              "transform 700ms ease-out, opacity 700ms ease-out",
           }}
         >
           <Image
@@ -400,22 +498,17 @@ export default function Navbar() {
               shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_12px_30px_-12px_rgba(2,6,23,0.35)]
               ring-1 ring-white/10 transition-colors
             "
-            style={{
-              backdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
-              WebkitBackdropFilter: `url(#nav-displace) saturate(${TUNE.sat}) brightness(${TUNE.bright})`,
-              "--glass-x": "50%",
-              "--glass-y": "50%",
-              willChange: "backdrop-filter, transform",
-              transform: "translateZ(0)",
-            } satisfies GlassStyle}
+            style={shellStyle}
           >
             {/* Distorsión focal */}
             <span
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-2xl"
               style={{
-                WebkitBackdropFilter: "blur(30px) saturate(180%) contrast(115%)",
-                backdropFilter: "blur(30px) saturate(180%) contrast(115%)",
+                WebkitBackdropFilter:
+                  "blur(30px) saturate(180%) contrast(115%)",
+                backdropFilter:
+                  "blur(30px) saturate(180%) contrast(115%)",
                 maskImage:
                   "radial-gradient(240px 180px at var(--glass-x,50%) var(--glass-y,50%), #000 42%, transparent 75%)",
               }}
@@ -425,7 +518,8 @@ export default function Navbar() {
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-2xl"
               style={{
-                WebkitBackdropFilter: "blur(14px) saturate(140%)",
+                WebkitBackdropFilter:
+                  "blur(14px) saturate(140%)",
                 backdropFilter: "blur(14px) saturate(140%)",
                 maskImage:
                   "radial-gradient(520px 360px at var(--glass-x,50%) var(--glass-y,50%), #000 34%, transparent 90%)",
@@ -441,7 +535,8 @@ export default function Navbar() {
                   "radial-gradient(180px 120px at calc(var(--glass-x,50%)+6%) calc(var(--glass-y,50%)-8%), rgba(255,255,255,0.45), rgba(255,255,255,0.08) 55%, transparent 70%)",
                 maskImage:
                   "radial-gradient(300px 220px at var(--glass-x,50%) var(--glass-y,50%), #000 40%, transparent 78%)",
-                transition: "background .28s ease, opacity .28s ease",
+                transition:
+                  "background .28s ease, opacity .28s ease",
               }}
             />
 
@@ -487,7 +582,9 @@ export default function Navbar() {
               <Link
                 href="/"
                 className={`flex items-center text-sm font-semibold uppercase tracking-[0.3em] transition-all duration-500 ${textColorClass} ${
-                  isScrolled ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
+                  isScrolled
+                    ? "pointer-events-auto translate-y-0 opacity-100"
+                    : "pointer-events-none -translate-y-4 opacity-0"
                 }`}
               >
                 <Image
@@ -496,37 +593,51 @@ export default function Navbar() {
                   width={40}
                   height={40}
                   priority
-                  className={`transition-transform duration-500 ${isScrolled ? "scale-100" : "scale-0"}`}
+                  className={`transition-transform duration-500 ${
+                    isScrolled ? "scale-100" : "scale-0"
+                  }`}
                 />
                 <span className="sr-only">Ir al inicio</span>
               </Link>
 
-              <div className={`hidden items-center gap-6 text-sm font-medium transition-colors md:flex ${textColorClass}`}>
+              <div
+                className={`hidden items-center gap-6 text-sm font-medium transition-colors md:flex ${textColorClass}`}
+              >
                 {links.map((item) => renderNavLink(item))}
               </div>
 
               <button
                 type="button"
-                aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-label={
+                  isMenuOpen ? "Cerrar menú" : "Abrir menú"
+                }
                 aria-expanded={isMenuOpen}
                 aria-controls="mobile-nav"
                 className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-white/40 transition md:hidden ${textColorClass}`}
-                onClick={() => setIsMenuOpen((prev) => !prev)}
+                onClick={() =>
+                  setIsMenuOpen((prev) => !prev)
+                }
               >
                 <span className="relative block h-4 w-6">
                   <span
                     className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-transform duration-300 ${
-                      isMenuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                      isMenuOpen
+                        ? "top-1/2 -translate-y-1/2 rotate-45"
+                        : "top-0"
                     }`}
                   />
                   <span
                     className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-all duration-300 ${
-                      isMenuOpen ? "top-1/2 -translate-y-1/2 opacity-0" : "top-1/2 -translate-y-1/2"
+                      isMenuOpen
+                        ? "top-1/2 -translate-y-1/2 opacity-0"
+                        : "top-1/2 -translate-y-1/2"
                     }`}
                   />
                   <span
                     className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-transform duration-300 ${
-                      isMenuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                      isMenuOpen
+                        ? "top-1/2 -translate-y-1/2 -rotate-45"
+                        : "bottom-0"
                     }`}
                   />
                 </span>
@@ -534,11 +645,18 @@ export default function Navbar() {
             </div>
 
             {isMenuOpen && (
-              <div className="absolute left-4 right-4 top-full z-20 mt-3 md:hidden" id="mobile-nav">
+              <div
+                className="absolute left-4 right-4 top-full z-20 mt-3 md:hidden"
+                id="mobile-nav"
+              >
                 <div className="rounded-2xl border border-white/20 bg-white/90 p-4 text-sm font-medium text-neutral-900 shadow-2xl backdrop-blur dark:bg-black/80 dark:text-white">
                   <div className="flex flex-col gap-4">
                     {links.map((item) =>
-                      renderNavLink(item, "block text-base font-semibold", handleNavLinkClick)
+                      renderNavLink(
+                        item,
+                        "block text-base font-semibold",
+                        handleNavLinkClick
+                      )
                     )}
                   </div>
                 </div>
