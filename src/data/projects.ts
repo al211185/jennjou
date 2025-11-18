@@ -185,6 +185,16 @@ export const projects: Project[] = [
     demoUrl: "https://youtu.be/fySEJBcUL58",
     youtubeId: "fySEJBcUL58",
   },
+{
+  slug: "flyers-sintonia-velvet",
+  title: "Flyer · Pretty girls",
+  cover: "/images/branding/flyer-6.png",
+  tags: ["Adobe Illustrator", "Flyer", "Photoshop"],
+  description:
+    "Cartel de inspiración sesentera para una campaña ficticia del sencillo “Mantra” de Jennie, con tipografía llamativa y texturas de medios tonos que refuerzan un mensaje de empoderamiento femenino.",
+  category: "flyers",
+},
+
   {
     slug: "flyers-sintonia-velvet",
     title: "Flyer · Curso Blender",
