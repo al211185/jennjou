@@ -27,7 +27,7 @@ export default function Hero() {
               href="#contacto"
               className="rounded-full border border-black px-6 py-3 font-semibold text-black transition hover:bg-black hover:text-white"
             >
-              Agendar reunión
+              Contactar
             </a>
           </div>
         </div>

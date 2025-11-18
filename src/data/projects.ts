@@ -74,22 +74,60 @@ export const projects: Project[] = [
     category: "ilustracion",
   },
   {
-    slug: "modelado-3d-metaescena",
-    title: "Metaescena Holográfica",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Blender", "Shaders", "Lighting"],
+    slug: "modelado-3d-aurora-santuario",
+    title: "Render · Santuario Aurora",
+    cover: "/images/modelado/render-01.png",
+    tags: ["Blender", "Cycles", "Lookdev"],
     description:
-      "Modelado y texturizado de un entorno holográfico con iluminación volumétrica y assets optimizados para tiempo real.",
+      "Exploración de iluminación volumétrica y texturas nacaradas para un santuario sci-fi que mezcla mármol sintético con neón.",
     category: "modelado-3d",
   },
   {
-    slug: "modelado-3d-figura-coleccionable",
-    title: "Figura Coleccionable Interdimensional",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Sculpt", "Retopology", "Lookdev"],
+    slug: "modelado-3d-puerto-sintetico",
+    title: "Render · Puerto Sintético",
+    cover: "/images/modelado/render-02.png",
+    tags: ["Environment", "Shaders", "Color grading"],
     description:
-      "Escultura digital detallada con retopología lista para impresión 3D y materiales PBR listos para render cinematográfico.",
+      "Paisaje urbano renderizado en Cycles con atmósferas nocturnas y niebla procedural que refuerza la escala cinematográfica.",
     category: "modelado-3d",
+  },
+  {
+    slug: "modelado-3d-avatar-mistico",
+    title: "Render · Avatar Místico",
+    cover: "/images/modelado/render-03.png",
+    tags: ["Character", "Lookdev", "Texturing"],
+    description:
+      "Retrato estilizado con piel translúcida, dispersión subsuperficial y paleta cálida inspirada en la estética hyperpop.",
+    category: "modelado-3d",
+  },
+  {
+    slug: "modelado-3d-cristales-rituales",
+    title: "Render · Cristales rituales",
+    cover: "/images/modelado/render-04.png",
+    tags: ["Hard Surface", "Lighting", "Compositing"],
+    description:
+      "Still frame con minerales flotantes y reflejos anamorficos creado para una secuencia de título experimental.",
+    category: "modelado-3d",
+  },
+  {
+    slug: "modelado-3d-sketchfab-guardian",
+    title: "Modelo interactivo · Guardian Core",
+    cover: "/images/ejemplo.jpg",
+    tags: ["Sketchfab", "Realtime", "Blender"],
+    description:
+      "Versión optimizada para WebGL del mecha Guardian Core con animaciones orbitales y materiales PBR.",
+    category: "modelado-3d",
+    demoUrl: "https://skfb.ly/orvrK",
+  },
+  {
+    slug: "modelado-3d-sketchfab-haven",
+    title: "Modelo interactivo · Haven Capsule",
+    cover: "/images/ejemplo.jpg",
+    tags: ["Sketchfab", "Realtime", "Texturing"],
+    description:
+      "Escena publicada en Sketchfab para recorridos 360° con assets listos para VR y bake de iluminación global.",
+    category: "modelado-3d",
+    demoUrl: "https://skfb.ly/pvorq",
   },
   {
     slug: "after-effects-creditos",
