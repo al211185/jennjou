@@ -30,14 +30,11 @@ function formatInstagramDescription(caption: string | null): { title: string; de
 
 export default async function PortfolioSection({ section, anchorId }: Props) {
   const isIllustrationSection = section.id === "ilustracion";
-  const isModelingSection = section.id === "modelado-3d";
-  const isFlyersSection = section.id === "flyers";
   const instagramPosts = isIllustrationSection ? await fetchInstagramMedia() : [];
   const imageOnlyInstagramPosts = instagramPosts.filter(
     (post) => post.mediaType === "IMAGE" || post.mediaType === "CAROUSEL_ALBUM"
   );
   const shouldUseInstagram = isIllustrationSection && imageOnlyInstagramPosts.length > 0;
-  const shouldUseCarousel = isIllustrationSection || isModelingSection || isFlyersSection;
 
   const instagramProjects: Project[] = imageOnlyInstagramPosts.map((post) => {
     const { title, description } = formatInstagramDescription(post.caption);
@@ -69,23 +66,15 @@ export default async function PortfolioSection({ section, anchorId }: Props) {
           <p className="text-base text-gray-600 sm:max-w-2xl">{section.description}</p>
         </header>
 
-        {shouldUseCarousel ? (
-          <HorizontalCarousel ariaLabel={`Carrusel de ${section.title.toLowerCase()}`}>
-            {projectsToRender.map((project) => (
-              <ProyectoCard
-                key={project.slug}
-                project={project}
-                squareMedia={isIllustrationSection}
-              />
-            ))}
-          </HorizontalCarousel>
-        ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {projectsToRender.map((project) => (
-              <ProyectoCard key={project.slug} project={project} />
-            ))}
-          </div>
-        )}
+        <HorizontalCarousel ariaLabel={`Carrusel de ${section.title.toLowerCase()}`}>
+          {projectsToRender.map((project) => (
+            <ProyectoCard
+              key={project.slug}
+              project={project}
+              squareMedia={isIllustrationSection}
+            />
+          ))}
+        </HorizontalCarousel>
       </div>
     </section>
   );

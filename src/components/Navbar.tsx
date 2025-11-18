@@ -43,6 +43,7 @@ export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState<number>(() => (isHome ? 0 : 1));
   const [isBackgroundLight, setIsBackgroundLight] = useState(false);
   const [isNavHidden, setIsNavHidden] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Tuning (look iOS-like)
   const TUNE = {
@@ -279,6 +280,41 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
+  useEffect(() => {
+    if (isNavHidden) {
+      setIsMenuOpen(false);
+    }
+  }, [isNavHidden]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  const handleNavLinkClick = () => setIsMenuOpen(false);
+
+  const renderNavLink = (
+    item: (typeof navigation)[number],
+    className = "",
+    onClick?: () => void
+  ) => {
+    const combinedClass = `transition hover:opacity-80 ${className}`.trim();
+    const isHashLink = isHome && item.href.startsWith("#");
+
+    if (isHashLink) {
+      return (
+        <a key={item.href} href={item.href} className={combinedClass} onClick={onClick}>
+          {item.label}
+        </a>
+      );
+    }
+
+    return (
+      <Link key={item.href} href={item.href} className={combinedClass} onClick={onClick}>
+        {item.label}
+      </Link>
+    );
+  };
+
   // Hero logo interp (solo se usa cuando isHome=true)
   const heroScale = 1.3 - 0.55 * scrollProgress;
   const heroTranslateY = -35 * scrollProgress;
@@ -450,7 +486,7 @@ export default function Navbar() {
             <div className="relative z-10 flex items-center justify-between px-6 py-4">
               <Link
                 href="/"
-                className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] transition-all duration-500 ${textColorClass} ${
+                className={`flex items-center text-sm font-semibold uppercase tracking-[0.3em] transition-all duration-500 ${textColorClass} ${
                   isScrolled ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
                 }`}
               >
@@ -462,29 +498,52 @@ export default function Navbar() {
                   priority
                   className={`transition-transform duration-500 ${isScrolled ? "scale-100" : "scale-0"}`}
                 />
-                <span>Jennjou</span>
+                <span className="sr-only">Ir al inicio</span>
               </Link>
 
-              <div className={`flex items-center gap-6 text-sm font-medium transition-colors ${textColorClass}`}>
-                {links.map((item) => {
-                  const isHashLink = isHome && item.href.startsWith("#");
-
-                  if (isHashLink) {
-                    return (
-                      <a key={item.href} href={item.href} className="transition hover:opacity-80">
-                        {item.label}
-                      </a>
-                    );
-                  }
-
-                  return (
-                    <Link key={item.href} href={item.href} className="transition hover:opacity-80">
-                      {item.label}
-                    </Link>
-                  );
-                })}
+              <div className={`hidden items-center gap-6 text-sm font-medium transition-colors md:flex ${textColorClass}`}>
+                {links.map((item) => renderNavLink(item))}
               </div>
+
+              <button
+                type="button"
+                aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-nav"
+                className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-white/40 transition md:hidden ${textColorClass}`}
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+              >
+                <span className="relative block h-4 w-6">
+                  <span
+                    className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-transform duration-300 ${
+                      isMenuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-all duration-300 ${
+                      isMenuOpen ? "top-1/2 -translate-y-1/2 opacity-0" : "top-1/2 -translate-y-1/2"
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 block h-0.5 w-full rounded-full bg-current transition-transform duration-300 ${
+                      isMenuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                    }`}
+                  />
+                </span>
+              </button>
             </div>
+
+            {isMenuOpen && (
+              <div className="absolute left-4 right-4 top-full z-20 mt-3 md:hidden" id="mobile-nav">
+                <div className="rounded-2xl border border-white/20 bg-white/90 p-4 text-sm font-medium text-neutral-900 shadow-2xl backdrop-blur dark:bg-black/80 dark:text-white">
+                  <div className="flex flex-col gap-4">
+                    {links.map((item) =>
+                      renderNavLink(item, "block text-base font-semibold", handleNavLinkClick)
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Inner stroke */}
             <span
