@@ -85,6 +85,20 @@ export default function ProjectPage({ params: { slug } }: Props) {
         />
       </div>
     </div>
+  ) : project.figmaEmbedSrc ? (
+    <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-black/40">
+      <div className="relative aspect-video w-full">
+        <iframe
+          src={project.figmaEmbedSrc}
+          title={`Diseño Figma de ${project.title}`}
+          loading="lazy"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"
+          className="absolute inset-0 h-full w-full"
+          style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
+        />
+      </div>
+    </div>
   ) : project.cover ? (
     <div className="overflow-hidden rounded-3xl border border-zinc-800">
       <Image

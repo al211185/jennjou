@@ -11,6 +11,7 @@ export interface Project {
   title: string;
   cover?: string;
   videoSrc?: string;
+  figmaEmbedSrc?: string;
   tags: string[];
   description: string;
   category: ProjectCategory;
@@ -20,34 +21,6 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    slug: "web-laboratorio-digital",
-    title: "Laboratorio Digital - Sitio corporativo",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Next.js", "UI Systems", "UX"],
-    description:
-      "Arquitectura y desarrollo de un sitio institucional que integra un diseño modular con componentes accesibles y un CMS headless.",
-    category: "desarrollo-web",
-    demoUrl: "https://example.com/laboratorio-digital",
-  },
-  {
-    slug: "web-plataforma-musical",
-    title: "Plataforma Musical Hyperpop",
-    cover: "/images/ejemplo.jpg",
-    tags: ["React", "API REST", "Design System"],
-    description:
-      "Landing dinámica con integración a APIs públicas para charts musicales, dashboards personalizados y experiencias responsivas.",
-    category: "desarrollo-web",
-  },
-  {
-    slug: "web-ecommerce-fantasia",
-    title: "E-commerce Fantasía Tech",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Commerce", "Animations", "Storytelling"],
-    description:
-      "Tienda digital con narrativa inmersiva, microinteracciones y checkout optimizado para incrementar la conversión móvil.",
-    category: "desarrollo-web",
-  },
   {
     slug: "web-sitio-memoria-viva",
     title: "Micrositio · Memoria Viva",
@@ -71,7 +44,8 @@ export const projects: Project[] = [
   {
     slug: "web-rosalia-experience",
     title: "Fanpage inmersiva · ROSALÍA",
-    cover: "/images/desarrollo/rosalia-preview.svg",
+    figmaEmbedSrc:
+      "https://embed.figma.com/design/aXAYFGM0P0uove6MTSc7Ek/Sitio?node-id=0-1&embed-host=share",
     tags: ["HTML", "CSS", "Fan experience"],
     description:
       "Micrositio responsive inspirado en la era MOTOMAMI con biografía, discografía y una línea de tiempo interactiva centrada en fans.",
