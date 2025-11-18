@@ -167,21 +167,48 @@ export const projects: Project[] = [
     youtubeId: "gx81Hf6j-8g",
   },
   {
-    slug: "flyers-hyperpop-tour",
-    title: "Hyperpop Tour 2025",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Print", "Layout", "Typography"],
+    slug: "flyers-sintonia-velvet",
+    title: "Flyer · Sintonía Velvet",
+    cover: "/images/branding/flyer-1.png",
+    tags: ["Print", "Branding", "Tipografía"],
     description:
-      "Serie de flyers impresos con tipografía líquida y texturas metalizadas, pensados para eventos musicales futuristas.",
+      "Diseño editorial con lettering líquido y texturas iridiscentes pensado para un ciclo de fiestas synthwave.",
     category: "flyers",
   },
   {
-    slug: "flyers-festival-visual",
-    title: "Festival Visual Synth",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Poster", "Color", "Gradient Maps"],
+   slug: "flyers-neon-ritual",
+    title: "Flyer · Neon Ritual",
+    cover: "/images/branding/flyer-2.png",
+    tags: ["Poster", "Color", "Editorial"],
     description:
-      "Campaña gráfica con variaciones cromáticas que mantienen consistencia de marca en formatos impresos y digitales.",
+      "Composición vertical con gradientes eléctricos y símbolos modulares que conectan identidad impresa y digital.",
+    category: "flyers",
+  },
+  {
+    slug: "flyers-digital-bloom",
+    title: "Flyer · Digital Bloom",
+    cover: "/images/branding/flyer-3.png",
+    tags: ["Branding", "Texturas", "CMYK"],
+    description:
+      "Arte de campaña que mezcla ilustración botánica experimental y patrones glitch para activaciones editoriales.",
+    category: "flyers",
+  },
+  {
+    slug: "flyers-laser-nights",
+    title: "Flyer · Laser Nights",
+    cover: "/images/branding/flyer-4.png",
+    tags: ["Layout", "Retícula", "Festival"],
+    description:
+      "Sistema de retículas flexibles con fotografía intervenida y contraste alto para comunicar line ups masivos.",
+    category: "flyers",
+  },
+  {
+    slug: "flyers-moonlight-club",
+    title: "Flyer · Moonlight Club",
+    cover: "/images/branding/flyer-5.png",
+    tags: ["Flyer", "Metalizados", "Brand System"],
+    description:
+      "Serie de piezas impresas con barniz sectorizado y color blocking pastel para merchandising de club nocturno.",
     category: "flyers",
   },
 ];
