@@ -8,7 +8,18 @@ interface Props {
 }
 
 export default function ProyectoCard({ project, squareMedia = false }: Props) {
-  const { title, slug, cover, videoSrc, tags, description, demoUrl, youtubeId, sketchfabModelId } = project;
+  const {
+    title,
+    slug,
+    cover,
+    videoSrc,
+    figmaEmbedSrc,
+    tags,
+    description,
+    demoUrl,
+    youtubeId,
+    sketchfabModelId,
+  } = project;
   const href = demoUrl ?? `/proyectos/${slug}`;
   const isExternal = /^https?:\/\//.test(href);
 
@@ -66,6 +77,22 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   ) : null;
 
+  const figmaEmbed = figmaEmbedSrc ? (
+    <div className="relative w-full overflow-hidden bg-black/5">
+      <div className="relative aspect-video w-full">
+        <iframe
+          src={figmaEmbedSrc}
+          title={`Diseño Figma de ${title}`}
+          loading="lazy"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"
+          className="absolute inset-0 h-full w-full"
+          style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
+        />
+      </div>
+    </div>
+  ) : null;
+
 
   const media = youtubeEmbed
     ? youtubeEmbed
@@ -73,7 +100,9 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
       ? localVideo
       : sketchfabEmbed
         ? sketchfabEmbed
-        : cover
+        : figmaEmbed
+          ? figmaEmbed
+          : cover
         ? squareMedia
           ? (
             <div className="relative aspect-square w-full overflow-hidden">
