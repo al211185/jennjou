@@ -4,7 +4,8 @@ export type ProjectCategory =
   | "ilustracion"
   | "modelado-3d"
   | "motion-after-effects"
-  | "flyers";
+  | "flyers"
+  | "concept-art-videojuegos";
 
 export interface Project {
   slug: string;
@@ -12,6 +13,7 @@ export interface Project {
   cover?: string;
   videoSrc?: string;
   figmaEmbedSrc?: string;
+  behanceEmbedSrc?: string;
   tags: string[];
   description: string;
   category: ProjectCategory;
@@ -171,6 +173,17 @@ export const projects: Project[] = [
     youtubeId: "gx81Hf6j-8g",
   },
   {
+    slug: "after-effects-trailer-hyperbloom",
+    title: "Hyperbloom · Motion Edit",
+    cover: "/images/ejemplo.jpg",
+    tags: ["After Effects", "Music Edit", "Montaje"],
+    description:
+      "Animación con cortes rítmicos, overlays glitch y tipografía cinética para reforzar el mood hiperpop.",
+    category: "motion-after-effects",
+    demoUrl: "https://youtu.be/fySEJBcUL58",
+    youtubeId: "fySEJBcUL58",
+  },
+  {
     slug: "flyers-sintonia-velvet",
     title: "Flyer · Sintonía Velvet",
     cover: "/images/branding/flyer-1.png",
@@ -215,6 +228,36 @@ export const projects: Project[] = [
       "Serie de piezas impresas con barniz sectorizado y color blocking pastel para merchandising de club nocturno.",
     category: "flyers",
   },
+  {
+    slug: "concept-art-reliquias-neon",
+    title: "Concept trailer · Reliquias Neón",
+    tags: ["Concept art", "Narrativa", "Videojuegos"],
+    description:
+      "Montaje que introduce personajes y ambientaciones para una campaña sci-fi, combinando ilustración y UI HUD.",
+    category: "concept-art-videojuegos",
+    demoUrl: "https://youtu.be/hjnKhY0YXmQ",
+    youtubeId: "hjnKhY0YXmQ",
+  },
+  {
+    slug: "concept-art-metaverso-angel",
+    title: "Pitch visual · Metaverso Angel",
+    tags: ["Storyboards", "Lookdev", "Game concept"],
+    description:
+      "Video conceptual que presenta la progresión de niveles y clanes, mezclando ilustraciones, UI y efectos lumínicos.",
+    category: "concept-art-videojuegos",
+    demoUrl: "https://youtu.be/8A8DmZ13m_g",
+    youtubeId: "8A8DmZ13m_g",
+  },
+  {
+    slug: "concept-art-behance-galaxia",
+    title: "Behance · Galaxia Character Kit",
+    tags: ["Behance", "Characters", "Videojuegos"],
+    description:
+      "Colección de concept art con turnaround de personajes, props y moodboards publicados en Behance.",
+    category: "concept-art-videojuegos",
+    demoUrl: "https://www.behance.net/gallery/169279777/Jennie-Jou-Game-Concepts",
+    behanceEmbedSrc: "https://www.behance.net/embed/project/169279777?ilo0=1",
+  },
 ];
 
 export interface PortfolioSection {
@@ -235,6 +278,8 @@ const descriptions: Record<ProjectCategory, string> = {
     "Piezas de motion graphics con ritmo, diseño tipográfico y exploración de texturas audiovisuales.",
   flyers:
     "Campañas impresas y digitales que potencian eventos, lanzamientos y festivales desde la estética hyperpop.",
+  "concept-art-videojuegos":
+    "Conceptualización de personajes, mundos y sistemas de juego mediante videos pitch y presentaciones interactivas.",
 };
 
 export const categoryTitles: Record<ProjectCategory, string> = {
@@ -243,6 +288,7 @@ export const categoryTitles: Record<ProjectCategory, string> = {
   "modelado-3d": "Modelado y render 3D",
   "motion-after-effects": "Motion graphics y animaciones",
   flyers: "Flyers & branding impreso",
+  "concept-art-videojuegos": "Concept art y videojuegos",
 };
 
 export const portfolioSections: PortfolioSection[] = (Object.keys(descriptions) as ProjectCategory[]).map(

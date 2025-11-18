@@ -14,6 +14,7 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     cover,
     videoSrc,
     figmaEmbedSrc,
+    behanceEmbedSrc,
     tags,
     description,
     demoUrl,
@@ -77,6 +78,21 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   ) : null;
 
+  const behanceEmbed = behanceEmbedSrc ? (
+    <div className="relative w-full overflow-hidden bg-black/5">
+      <div className="relative aspect-[404/316] w-full">
+        <iframe
+          src={behanceEmbedSrc}
+          title={`Proyecto Behance de ${title}`}
+          loading="lazy"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-pointer-lock allow-forms allow-popups allow-popups-to-escape-sandbox"
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      </div>
+    </div>
+  ) : null;
+
   const figmaEmbed = figmaEmbedSrc ? (
     <div className="relative w-full overflow-hidden bg-black/5">
       <div className="relative aspect-video w-full">
@@ -100,9 +116,11 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
       ? localVideo
       : sketchfabEmbed
         ? sketchfabEmbed
-        : figmaEmbed
-          ? figmaEmbed
-          : cover
+        : behanceEmbed
+          ? behanceEmbed
+          : figmaEmbed
+            ? figmaEmbed
+            : cover
         ? squareMedia
           ? (
             <div className="relative aspect-square w-full overflow-hidden">
