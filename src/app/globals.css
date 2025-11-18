@@ -93,6 +93,13 @@ body {
   }
 }
 
+@media (max-width: 639px) {
+  .hero-mobile-16-9 {
+    min-height: calc(100vw * 9 / 16);
+  }
+}
+
+
 /* Sin soporte de backdrop-filter */
 @supports not (backdrop-filter: blur(0px)) {
   [data-glass="nav"] {

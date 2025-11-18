@@ -3,7 +3,7 @@ export default function Hero() {
     <section
       id="inicio"
       data-fullpage-section
-              className="relative isolate flex min-h-[100svh] w-full items-center justify-center border-y border-black px-4 py-16 sm:min-h-screen sm:px-6"
+      className="relative isolate flex min-h-screen w-full items-center justify-center border-y border-black px-4 py-16 sm:px-6"
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-center px-2 sm:px-4">
         <div className="mx-auto max-w-3xl space-y-4 text-center sm:space-y-6">
