@@ -49,6 +49,36 @@ export const projects: Project[] = [
     category: "desarrollo-web",
   },
   {
+    slug: "web-sitio-memoria-viva",
+    title: "Micrositio · Memoria Viva",
+    tags: ["Next.js", "Scroll-based", "Storytelling"],
+    description:
+      "Landing one-page que mezcla animaciones sincronizadas con el scroll, transiciones fluidas y un storytelling audiovisual completo.",
+    category: "desarrollo-web",
+    demoUrl: "https://youtu.be/2hOEFu_h684",
+    youtubeId: "2hOEFu_h684",
+  },
+  {
+    slug: "web-plataforma-sessions-vip",
+    title: "Plataforma · Sessions VIP",
+    tags: ["Responsive", "UI Motion", "Componentes"],
+    description:
+      "Exploración de interfaz para shows en streaming con layouts responsivos, cards animadas y prototipos navegables registrados en video.",
+    category: "desarrollo-web",
+    demoUrl: "https://www.youtube.com/watch?v=96FgYxY4TE8",
+    youtubeId: "96FgYxY4TE8",
+  },
+  {
+    slug: "web-rosalia-experience",
+    title: "Fanpage inmersiva · ROSALÍA",
+    cover: "/images/desarrollo/rosalia-preview.svg",
+    tags: ["HTML", "CSS", "Fan experience"],
+    description:
+      "Micrositio responsive inspirado en la era MOTOMAMI con biografía, discografía y una línea de tiempo interactiva centrada en fans.",
+    category: "desarrollo-web",
+    demoUrl: "https://al211185.github.io/Rosalia",
+  },
+  {
     slug: "ilustracion-neon-melodias",
     title: "Neon Melodías",
     cover: "/images/ejemplo.jpg",
