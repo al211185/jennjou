@@ -18,7 +18,7 @@ export const INSTAGRAM_PROFILE_URL =
 const IG_API_VERSION = process.env.IG_API_VERSION ?? "v20.0";
 const DEFAULT_LIMIT = 9;
 
-const ALLOWED_MEDIA_TYPES = new Set(["IMAGE", "CAROUSEL_ALBUM"]);
+const ALLOWED_MEDIA_TYPES = new Set(["IMAGE", "CAROUSEL_ALBUM", "VIDEO"]);
 
 type RawInstagramItem = {
   id?: string;
@@ -27,7 +27,61 @@ type RawInstagramItem = {
   permalink?: string;
   media_type?: string | null;
   thumbnail_url?: string | null;
+  children?: {
+    data?: RawInstagramChild[];
+  };
 };
+
+type RawInstagramChild = {
+  id?: string;
+  media_url?: string | null;
+  media_type?: string | null;
+  thumbnail_url?: string | null;
+};
+
+function resolveCarouselMedia(children?: RawInstagramChild[] | null): string | null {
+  if (!children) {
+    return null;
+  }
+
+  for (const child of children) {
+    if (!child) continue;
+    const childType = child.media_type?.toUpperCase();
+    if (childType !== "IMAGE" && childType !== "VIDEO") {
+      continue;
+    }
+
+    if (childType === "VIDEO" && child.thumbnail_url) {
+      return child.thumbnail_url;
+    }
+
+    if (child.media_url) {
+      return child.media_url;
+    }
+
+    if (child.thumbnail_url) {
+      return child.thumbnail_url;
+    }
+  }
+
+  return null;
+}
+
+function resolveMediaUrl(item: RawInstagramItem): string | null {
+  const mediaType = item.media_type?.toUpperCase();
+  if (mediaType === "VIDEO") {
+    return item.thumbnail_url ?? null;
+  }
+
+  if (mediaType === "CAROUSEL_ALBUM") {
+    const carouselUrl = resolveCarouselMedia(item.children?.data ?? []);
+    if (carouselUrl) {
+      return carouselUrl;
+    }
+  }
+
+  return item.media_url ?? item.thumbnail_url ?? null;
+}
 
 
 export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<InstagramMediaItem[]> {
@@ -36,7 +90,15 @@ export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<Instag
     return [];
   }
 
-  const fields = ["id","caption","media_url","permalink","media_type","thumbnail_url"].join(",");
+  const fields = [
+    "id",
+    "caption",
+    "media_url",
+    "permalink",
+    "media_type",
+    "thumbnail_url",
+    "children{media_type,media_url,thumbnail_url}",
+  ].join(",");
   const url = new URL(`https://graph.facebook.com/${IG_API_VERSION}/${IG_USER_ID}/media`);
   url.searchParams.set("fields", fields);
   url.searchParams.set("access_token", IG_GRAPH_TOKEN);
@@ -51,13 +113,13 @@ export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<Instag
     const payload = (await res.json()) as { data?: RawInstagramItem[] };
     return (payload.data ?? [])
       .map((item) => {
-                if (!item) return null;
+        if (!item) return null;
         const mediaType = item.media_type?.toUpperCase() ?? "";
         if (!ALLOWED_MEDIA_TYPES.has(mediaType)) {
           return null;
         }
 
-        const mediaUrl = item.media_url ?? item.thumbnail_url;
+        const mediaUrl = resolveMediaUrl(item);
         if (!mediaUrl || !item.id || !item.permalink) {
           return null;
         }
