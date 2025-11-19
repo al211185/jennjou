@@ -8,8 +8,31 @@ export interface InstagramMediaItem {
   thumbnailUrl?: string | null;
 }
 
-const IG_USER_ID = process.env.IG_USER_ID ?? process.env.NEXT_PUBLIC_IG_USER_ID;
-const IG_GRAPH_TOKEN = process.env.IG_GRAPH_TOKEN ?? process.env.NEXT_PUBLIC_IG_GRAPH_TOKEN;
+function getEnvVar(...keys: string[]): string | undefined {
+  for (const key of keys) {
+    const value = process.env[key];
+    if (typeof value === "string" && value.length > 0) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
+const IG_USER_ID = getEnvVar(
+  "IG_USER_ID",
+  "INSTAGRAM_USER_ID",
+  "NEXT_PUBLIC_IG_USER_ID",
+  "NEXT_PUBLIC_INSTAGRAM_USER_ID"
+);
+const IG_GRAPH_TOKEN = getEnvVar(
+  "IG_GRAPH_TOKEN",
+  "INSTAGRAM_GRAPH_TOKEN",
+  "INSTAGRAM_TOKEN",
+  "IG_ACCESS_TOKEN",
+  "NEXT_PUBLIC_IG_GRAPH_TOKEN",
+  "NEXT_PUBLIC_INSTAGRAM_GRAPH_TOKEN",
+  "NEXT_PUBLIC_INSTAGRAM_TOKEN"
+);
 export const INSTAGRAM_PROFILE_URL =
   process.env.INSTAGRAM_PROFILE_URL ??
   process.env.NEXT_PUBLIC_INSTAGRAM_PROFILE_URL ??
@@ -86,7 +109,9 @@ function resolveMediaUrl(item: RawInstagramItem): string | null {
 
 export async function fetchInstagramMedia(limit = DEFAULT_LIMIT): Promise<InstagramMediaItem[]> {
   if (!IG_USER_ID || !IG_GRAPH_TOKEN) {
-    console.warn("IG Graph env vars missing; skipping fetch.");
+    console.warn(
+      "IG Graph env vars missing; set IG_USER_ID/IG_GRAPH_TOKEN (or INSTAGRAM_USER_ID/INSTAGRAM_TOKEN) to enable Instagram fetch."
+    );
     return [];
   }
 
