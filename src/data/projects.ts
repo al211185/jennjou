@@ -58,29 +58,47 @@ export const projects: Project[] = [
   },
   {
     slug: "ilustracion-neon-melodias",
-    title: "Neon Melodías",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Illustration", "Digital Art", "Synthwave"],
+    title: "Lo que fui, lo que soy",
+    cover: "/images/illsutrations/catrina.png",
+    tags: ["Illustration", "Digital Art", "Dia de Muertos"],
     description:
-      "Serie de retratos ilustrados que fusionan sintetizadores retro con texturas fluidas y tipografías experimentales.",
+      "Composición basada en la celebración del Día de Muertos, fusionando elementos tradicionales con una estética synthwave vibrante y moderna.",
     category: "ilustracion",
   },
   {
-    slug: "ilustracion-bestias-urbanas",
-    title: "Bestias Urbanas",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Concept Art", "Editorial"],
+    slug: "ilustracion-virgin",
+    title: "La virgen de mi maquila",
+    cover: "/images/illsutrations/virgin.png",
+    tags: ["Concept Art", "Cyber religious", "Ethel Cain"],
     description:
-      "Colección de pósters editoriales donde criaturas fantásticas habitan paisajes urbanos hiperrealistas.",
+      "Ilustración que combina lo religioso con la tecnología.",
     category: "ilustracion",
   },
   {
-    slug: "ilustracion-cuento-lunar",
-    title: "Cuento Lunar",
-    cover: "/images/ejemplo.jpg",
-    tags: ["Children", "Fantasy", "Color Grading"],
+    slug: "ilustracion-hikaru",
+    title: "Hikaru",
+    cover: "/images/illsutrations/hikaru.png",
+    tags: ["Anime", "Fantasy", "Male Protagonist"],
     description:
-      "Ilustraciones para un cuento infantil con composición onírica y paleta luminosa inspirada en la cultura pop asiática.",
+      "Ilustracion basada en un personaje original de The Summer Hikaru Died.",
+    category: "ilustracion",
+  },
+  {
+    slug: "ilustracion-danielle",
+    title: "Danielle",
+    cover: "/images/illsutrations/danielle.png",
+    tags: ["OC", "Feminity", "Demon"],
+    description:
+      "Ilustracion basada en mi personaje original Danielle.",
+    category: "ilustracion",
+  },
+    {
+    slug: "ilustracion-unholy-muse",
+    title: "Danielle",
+    cover: "/images/illsutrations/unholy.jpeg",
+    tags: ["Videogame", "Experimental", "Demon"],
+    description:
+      "Ilustracion para concept art Unholy Muse.",
     category: "ilustracion",
   },
   {
@@ -185,15 +203,15 @@ export const projects: Project[] = [
     demoUrl: "https://youtu.be/fySEJBcUL58",
     youtubeId: "fySEJBcUL58",
   },
-{
-  slug: "flyers-sintonia-velvet",
-  title: "Flyer · Pretty girls",
-  cover: "/images/branding/flyer-6.png",
-  tags: ["Adobe Illustrator", "Flyer", "Photoshop"],
-  description:
-    "Cartel de inspiración sesentera para una campaña ficticia del sencillo “Mantra” de Jennie, con tipografía llamativa y texturas de medios tonos que refuerzan un mensaje de empoderamiento femenino.",
-  category: "flyers",
-},
+  {
+    slug: "flyers-sintonia-velvet",
+    title: "Flyer · Pretty girls",
+    cover: "/images/branding/flyer-6.png",
+    tags: ["Adobe Illustrator", "Flyer", "Photoshop"],
+    description:
+      "Cartel de inspiración sesentera para una campaña ficticia del sencillo “Mantra” de Jennie, con tipografía llamativa y texturas de medios tonos que refuerzan un mensaje de empoderamiento femenino.",
+    category: "flyers",
+  },
 
   {
     slug: "flyers-sintonia-velvet",
