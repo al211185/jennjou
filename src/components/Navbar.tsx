@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 const navigation = [
   { href: "#inicio", label: "Inicio" },
   { href: "#sobre-mi", label: "Sobre mí" },
+  { href: "#curriculum", label: "Curriculum" },
   { href: "#portfolio", label: "Portfolio" },
   { href: "#contacto", label: "Contacto" },
 ];

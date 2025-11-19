@@ -1,5 +1,6 @@
 import Hero from "../components/Hero";
 import About from "../components/About";
+import CurriculumSection from "../components/CurriculumSection";
 import PortfolioSection from "../components/PortfolioSection";
 import Contact from "../components/Contact";
 import BumpSequence from "../components/BumpSequence";
@@ -11,6 +12,7 @@ export default function Home() {
       <BumpSequence />
       <Hero />
       <About />
+      <CurriculumSection />
 
       {portfolioSections.map((section, index) => (
         <PortfolioSection
