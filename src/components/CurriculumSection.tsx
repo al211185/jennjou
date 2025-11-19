@@ -1,29 +1,41 @@
 const experiences = [
   {
-    period: "Enero - Mayo 2024",
-    title: "Diseñador web · Be My Angel para Digitale-rias",
+    period: "Enero - Mayo 2025",
+    title: "Practicante de diseño y desarrollo interactivo",
+    company: "Mech Robotix",
     points: [
-      "Investigación, autoría y prototipado de funcionalidad para una plataforma de dating game.",
-      "Planificación y acompañamiento del trabajo de 3 integrantes como diseñador web.",
+      "Impartí un curso introductorio de Blender para niñas, niños y adolescentes.",
+      "Diseñé flyers y material gráfico para la promoción de cursos online de robótica y 3D.",
+      "Diseñé, desarrollé y programé en Unity el videojuego educativo «Otix aprende a organizar» para niñas y niños dentro del espectro autista.",
     ],
   },
   {
-    period: "Agosto - Diciembre 2024",
-    title: "Programador 3D y Aplicación de Gestión de Conocimiento para AROU",
+    period: "Enero - Noviembre 2025",
+    title: "Proyecto de titulación · Aura.Mobile First",
+    company: "Universidad Autónoma de Ciudad Juárez",
     points: [
-      "Desarrollo y animación 3D para la experiencia de realidad aumentada de AROU.",
-      "Autoría y edición de un video tráiler para la aplicación mobile en Play Store.",
-      "Programación de API para la consolidación de pruebas de usuario en AROU.",
-      "Aplicación Windows Form en .NET 5.0 conectada a la API para orientar la experiencia 3D en Unity.",
+      "Diseño y desarrollo de una plataforma web para la creación de páginas y sitios con enfoque mobile first.",
+      "Implementación del backend utilizando .NET 9 para la gestión de proyectos académicos.",
+      "Desarrollo del frontend con React + Vite y Tailwind CSS, cuidando accesibilidad y buenas prácticas de UX/UI.",
+    ],
+  },
+  {
+    period: "Agosto 2025 - Actualidad",
+    title: "Diseñador de contenido interactivo para capacitación",
+    company: "TotalGas",
+    points: [
+      "Producción de videos para cursos de inducción y capacitación continua para nuevas personas colaboradoras y personal activo.",
+      "Diseño de un prototipo en Figma para la futura plataforma interna de cursos interactivos.",
+      "Creación de material multimedia utilizando Figma, Illustrator, Photoshop, Blender, Premiere, Audition y After Effects.",
     ],
   },
 ];
 
+
 const tools = [
   "Visual Studio",
   "After Effects",
-  "Adobe XD",
-  "ZBrush",
+  "ProCreate",
   "Figma",
   "Blender",
   "Photoshop",
@@ -93,11 +105,17 @@ export default function CurriculumSection() {
             <h3 className="text-xl font-semibold text-slate-900">Experiencia</h3>
             <div className="space-y-6">
               {experiences.map((experience) => (
-                <div key={experience.title} className="rounded-lg border border-slate-200 p-4">
+                <div
+                  key={experience.title + experience.period}
+                  className="rounded-lg border border-slate-200 p-4"
+                >
                   <p className="text-sm font-semibold uppercase tracking-wide text-slate-700">
                     {experience.period}
                   </p>
                   <p className="text-lg font-semibold text-slate-900">{experience.title}</p>
+                  {experience.company && (
+                    <p className="text-sm text-slate-700">{experience.company}</p>
+                  )}
                   <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
                     {experience.points.map((point) => (
                       <li key={point}>{point}</li>
@@ -105,6 +123,8 @@ export default function CurriculumSection() {
                   </ul>
                 </div>
               ))}
+
+
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -148,10 +168,6 @@ export default function CurriculumSection() {
                 <li className="flex items-center justify-between">
                   <span>Inglés</span>
                   <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">Intermedio</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Portugués</span>
-                  <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-semibold text-yellow-700">Básico</span>
                 </li>
               </ul>
             </div>
