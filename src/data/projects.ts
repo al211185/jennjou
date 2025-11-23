@@ -59,7 +59,7 @@ export const projects: Project[] = [
   {
     slug: "ilustracion-neon-melodias",
     title: "Lo que fui, lo que soy",
-    cover: "/images/illsutrations/catrina.png",
+    cover: "/images/illsutrations/bissu.png",
     tags: ["Illustration", "Digital Art", "Dia de Muertos"],
     description:
       "Composición basada en la celebración del Día de Muertos, fusionando elementos tradicionales con una estética synthwave vibrante y moderna.",
