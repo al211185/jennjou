@@ -68,7 +68,7 @@ export const projects: Project[] = [
   {
     slug: "ilustracion-virgin",
     title: "La virgen de mi maquila",
-    cover: "/images/illsutrations/virgin.png",
+    cover: "/images/illsutrations/virgin.jpeg",
     tags: ["Concept Art", "Cyber religious", "Ethel Cain"],
     description:
       "Ilustración que combina lo religioso con la tecnología.",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
   {
     slug: "ilustracion-hikaru",
     title: "Hikaru",
-    cover: "/images/illsutrations/hikaru.png",
+    cover: "/images/illsutrations/hikaru.jpeg",
     tags: ["Anime", "Fantasy", "Male Protagonist"],
     description:
       "Ilustracion basada en un personaje original de The Summer Hikaru Died.",
