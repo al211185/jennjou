@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const IMAGE_COUNT = 9;
 const INTERVAL_MS = 100;
@@ -12,16 +12,39 @@ export default function BumpSequence() {
     []
   );
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [userPaused, setUserPaused] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isPlaying = isInView && !userPaused;
 
   useEffect(() => {
-    const tick = () => {
-      setActiveIndex((previous) => (previous + 1) % images.length);
-    };
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      setIsInView(true);
+      return;
+    }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      {
+        threshold: 0.3,
+        rootMargin: "120px",
+      }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!isPlaying) {
       return;
     }
+
+    const tick = () => {
+      setActiveIndex((previous) => (previous + 1) % images.length);
+    };
 
     const intervalId = window.setInterval(tick, INTERVAL_MS);
     return () => window.clearInterval(intervalId);
@@ -33,6 +56,7 @@ export default function BumpSequence() {
 
   return (
     <section
+      ref={sectionRef}
       data-fullpage-section
       aria-label="Secuencia de imágenes destacadas"
            className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden border-y border-black bg-black/5 px-4 py-12 sm:min-h-screen"
@@ -53,7 +77,7 @@ export default function BumpSequence() {
           <div className="absolute inset-x-0 bottom-0 flex justify-center pb-6">
             <button
               type="button"
-              onClick={() => setIsPlaying((previous) => !previous)}
+              onClick={() => setUserPaused((previous) => !previous)}
               className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-black/70 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-black/80"
               aria-pressed={isPaused}
               aria-label={isPlaying ? "Pausar secuencia" : "Reproducir secuencia"}
