@@ -3,29 +3,37 @@ export default function Hero() {
     <section
       id="inicio"
       data-fullpage-section
+      data-tone="hero"
       className="relative isolate flex min-h-screen w-full items-center justify-center border-y border-black px-4 py-16 sm:px-6"
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-center px-2 sm:px-4">
-        <div className="mx-auto max-w-3xl space-y-4 text-center sm:space-y-6">
-          <p className="text-sm uppercase tracking-[0.4em] text-gray-500">
-            Jennjou
-          </p>
+        <div className="section-shell reveal-up mx-auto max-w-4xl space-y-5 px-6 py-10 text-center sm:space-y-6 sm:px-10">
+          <p className="kicker">Jennjou</p>
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-            Diseño visual, desarrollo web y experiencias inmersivas con ADN hyperpop
+            Diseño visual, desarrollo web y experiencias inmersivas con ADN
+            hyperpop
           </h1>
           <p className="text-base text-gray-700 sm:text-xl">
-            Combino ilustración, 3D, motion graphics y código para construir marcas vibrantes y productos digitales memorables.
+            Combino ilustración, 3D, motion graphics y código para construir
+            marcas vibrantes y productos digitales memorables.
           </p>
+          <div className="mx-auto flex w-fit flex-wrap justify-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-700">
+            {["Ilustración", "3D", "Motion", "Web"].map((item) => (
+              <span key={item} className="chip px-4 py-1.5">
+                {item}
+              </span>
+            ))}
+          </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
             <a
               href="#portfolio"
-              className="w-full rounded-full bg-black px-6 py-3 text-center font-semibold text-white transition hover:bg-gray-800 sm:w-auto"
+              className="btn-primary w-full px-6 py-3 text-center sm:w-auto"
             >
               Ver portfolio
             </a>
             <a
               href="#contacto"
-              className="w-full rounded-full border border-black px-6 py-3 text-center font-semibold text-black transition hover:bg-black hover:text-white sm:w-auto"
+              className="btn-secondary w-full px-6 py-3 text-center sm:w-auto"
             >
               Contactar
             </a>
@@ -35,4 +43,3 @@ export default function Hero() {
     </section>
   );
 }
-

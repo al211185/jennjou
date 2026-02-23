@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 
 const SCROLL_DURATION = 800;
 const SECTION_SELECTOR = "[data-fullpage-section]";
@@ -11,14 +10,7 @@ function clamp(value: number, min: number, max: number) {
 }
 
 export default function FullPageScrollManager() {
-  const pathname = usePathname();
-
   useEffect(() => {
-    if (pathname !== "/") {
-      document.body.classList.remove("fullpage-active", "fullpage-ready");
-      return;
-    }
-
     const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (reduceMotionQuery.matches) {
@@ -190,7 +182,7 @@ export default function FullPageScrollManager() {
       document.body.classList.remove("fullpage-active", "fullpage-ready");
       sections.forEach((section) => section.classList.remove("is-visible"));
     };
-  }, [pathname]);
+  }, []);
 
   return null;
 }

@@ -59,7 +59,7 @@ export const projects: Project[] = [
   {
     slug: "ilustracion-neon-melodias",
     title: "Lo que fui, lo que soy",
-    cover: "/images/illsutrations/bissu.png",
+    cover: "/images/illsutrations/bissu.jpg",
     tags: ["Illustration", "Digital Art", "Dia de Muertos"],
     description:
       "Composición basada en la celebración del Día de Muertos, fusionando elementos tradicionales con una estética synthwave vibrante y moderna.",
@@ -104,7 +104,7 @@ export const projects: Project[] = [
   {
     slug: "modelado-3d-aurora-santuario",
     title: "ART TOY · Danielle",
-    cover: "/images/modelado/render-01.png",
+    cover: "/images/modelado/render-01.jpg",
     tags: ["Blender", "DANIELLE", "Cycles"],
     description:
       "Exploración de la feminidad y texturas nacaradas para la conceptualización de una pieza de arte en forma de juguete.",
@@ -113,7 +113,7 @@ export const projects: Project[] = [
   {
     slug: "modelado-3d-puerto-sintetico",
     title: "Render · Liderazgo gasolinero 2023",
-    cover: "/images/modelado/render-02.png",
+    cover: "/images/modelado/render-02.jpg",
     tags: ["Blender", "Shaders", "Cycles"],
     description:
       "Render en Cycles realizado durante mis prácticas profesionales para representar el reconocimiento de liderazgo gasolinero obtenidos por Total Gas en 2023.",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
   {
     slug: "modelado-3d-avatar-mistico",
     title: "Render · Liderazgo gasolinero 2025",
-    cover: "/images/modelado/render-03.png",
+    cover: "/images/modelado/render-03.jpg",
     tags: ["Blender", "Shaders", "Cycles"],
     description:
       "Render en Cycles realizado durante mis prácticas profesionales para representar el reconocimiento de liderazgo gasolinero obtenidos por Total Gas en 2025.",
@@ -131,7 +131,7 @@ export const projects: Project[] = [
   {
     slug: "modelado-3d-cristales-rituales",
     title: "Render · ZEN",
-    cover: "/images/modelado/render-04.png",
+    cover: "/images/modelado/render-04.jpg",
     tags: ["Hard Surface", "Lighting", "Compositing"],
     description:
       "Render en Cycles inspirado en el video musical ZEN - JENNIE",
@@ -206,7 +206,7 @@ export const projects: Project[] = [
   {
     slug: "flyers-sintonia-velvet",
     title: "Flyer · Pretty girls",
-    cover: "/images/branding/flyer-6.png",
+    cover: "/images/branding/flyer-6.jpg",
     tags: ["Adobe Illustrator", "Flyer", "Photoshop"],
     description:
       "Cartel de inspiración sesentera para una campaña ficticia del sencillo “Mantra” de Jennie, con tipografía llamativa y texturas de medios tonos que refuerzan un mensaje de empoderamiento femenino.",
@@ -214,9 +214,9 @@ export const projects: Project[] = [
   },
 
   {
-    slug: "flyers-sintonia-velvet",
+    slug: "flyers-curso-blender",
     title: "Flyer · Curso Blender",
-    cover: "/images/branding/flyer-1.png",
+    cover: "/images/branding/flyer-1.jpg",
     tags: ["Adobe Illustrator", "Flyer", "MECH ROBOTIX"],
     description:
       "Flyer creado en Illustrator y Blender para la promoción de un curso online de Blender durante mis prácticas profesionales en Mech Robotix.",
@@ -252,7 +252,7 @@ export const projects: Project[] = [
   {
     slug: "flyers-moonlight-club",
     title: "Flyer · Curso Python",
-    cover: "/images/branding/flyer-5.png",
+    cover: "/images/branding/flyer-5-optimized.png",
     tags: ["Adobe Illustrator", "Flyer", "MECH ROBOTIX"],
     description:
       "Flyer creado en Illustrator para la promoción de un curso online de Python durante mis prácticas profesionales en Mech Robotix.",
@@ -321,11 +321,36 @@ export const categoryTitles: Record<ProjectCategory, string> = {
   "concept-art-videojuegos": "Concept art y videojuegos",
 };
 
-export const portfolioSections: PortfolioSection[] = (Object.keys(descriptions) as ProjectCategory[]).map(
-  (category) => ({
-    id: category,
-    title: categoryTitles[category],
-    description: descriptions[category],
-    projects: projects.filter((project) => project.category === category),
-  })
+const projectsByCategory: Record<ProjectCategory, Project[]> = {
+  "desarrollo-web": [],
+  ilustracion: [],
+  "modelado-3d": [],
+  "motion-after-effects": [],
+  flyers: [],
+  "concept-art-videojuegos": [],
+};
+
+const seenProjectSlugs = new Set<string>();
+for (const project of projects) {
+  if (seenProjectSlugs.has(project.slug)) {
+    throw new Error(`Duplicate project slug detected: ${project.slug}`);
+  }
+
+  seenProjectSlugs.add(project.slug);
+  projectsByCategory[project.category].push(project);
+}
+
+export const projectBySlug = new Map(
+  projects.map((project) => [project.slug, project] as const)
 );
+
+export const projectSlugs = projects.map((project) => project.slug);
+
+export const portfolioSections: PortfolioSection[] = (
+  Object.keys(descriptions) as ProjectCategory[]
+).map((category) => ({
+  id: category,
+  title: categoryTitles[category],
+  description: descriptions[category],
+  projects: projectsByCategory[category],
+}));

@@ -1,10 +1,10 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/data/projects";
 
 interface Props {
   project: Project;
-  squareMedia?: boolean; // NUEVO
+  squareMedia?: boolean;
 }
 
 export default function ProyectoCard({ project, squareMedia = false }: Props) {
@@ -21,15 +21,15 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     youtubeId,
     sketchfabModelId,
   } = project;
+
   const href = demoUrl ?? `/proyectos/${slug}`;
   const isExternal = /^https?:\/\//.test(href);
 
   const baseCardClassName =
-    "group flex h-full flex-col overflow-hidden rounded-3xl border border-black bg-black/5 transition hover:-translate-y-1 hover:bg-black/10";
+    "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-black/30 bg-white/75 shadow-[0_14px_30px_rgba(9,10,16,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_38px_rgba(9,10,16,0.18)]";
   const cardClassName = squareMedia
     ? `${baseCardClassName} min-h-[300px]`
     : `${baseCardClassName} min-h-[360px]`;
-
 
   const youtubeEmbed = youtubeId ? (
     <div className="relative w-full overflow-hidden bg-black">
@@ -47,7 +47,7 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   ) : null;
 
-    const localVideo = videoSrc ? (
+  const localVideo = videoSrc ? (
     <div className="relative w-full overflow-hidden bg-black">
       <div className="relative aspect-video w-full">
         <video
@@ -60,7 +60,6 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
       </div>
     </div>
   ) : null;
-
 
   const sketchfabEmbed = sketchfabModelId ? (
     <div className="relative w-full overflow-hidden bg-black">
@@ -109,7 +108,6 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
     </div>
   ) : null;
 
-
   const media = youtubeEmbed
     ? youtubeEmbed
     : localVideo
@@ -121,41 +119,44 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
           : figmaEmbed
             ? figmaEmbed
             : cover
-        ? squareMedia
-          ? (
-            <div className="relative aspect-square w-full overflow-hidden">
-              <Image
-                src={cover}
-                alt={title}
-                fill
-                sizes="(min-width:1024px) 460px, (min-width:640px) 380px, 86vw"
-                className="object-cover transition duration-500 group-hover:scale-105"
-              />
-            </div>
-          )
-          : (
-            <Image
-              src={cover}
-              alt={title}
-              width={640}
-              height={400}
-              sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw"
-              className="w-full aspect-[4/3] object-cover transition duration-500 group-hover:scale-105"
-            />
-          )
-        : squareMedia
-          ? (
-            <div className="flex aspect-square w-full items-center justify-center bg-black/10 text-sm text-gray-600">
-              Imagen próximamente
-            </div>
-          )
-          : (
-            <div className="flex h-48 w-full items-center justify-center bg-black/10 text-sm text-gray-600">
-              Imagen próximamente
-            </div>
-          );
+              ? squareMedia
+                ? (
+                  <div className="relative aspect-square w-full overflow-hidden">
+                    <Image
+                      src={cover}
+                      alt={title}
+                      fill
+                      sizes="(min-width:1024px) 460px, (min-width:640px) 380px, 86vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )
+                : (
+                  <Image
+                    src={cover}
+                    alt={title}
+                    width={640}
+                    height={400}
+                    sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw"
+                    className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                )
+              : squareMedia
+                ? (
+                  <div className="flex aspect-square w-full items-center justify-center bg-black/10 text-sm text-gray-700">
+                    Imagen próximamente
+                  </div>
+                )
+                : (
+                  <div className="flex h-48 w-full items-center justify-center bg-black/10 text-sm text-gray-700">
+                    Imagen próximamente
+                  </div>
+                );
 
-  const instagramTags = tags.filter((tag) => tag.toLowerCase() === "instagram");
+  const instagramTags = tags.filter(
+    (tag) => tag.toLowerCase() === "instagram"
+  );
+  const visibleTags = squareMedia ? instagramTags : tags;
 
   const content = (
     <>
@@ -169,15 +170,12 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
       >
         <h3 className="text-xl font-semibold text-black">{title}</h3>
         {squareMedia ? null : (
-          <p className="text-sm leading-relaxed text-gray-600">{description}</p>
+          <p className="text-sm leading-relaxed text-gray-700">{description}</p>
         )}
-        {(squareMedia ? instagramTags : tags).length > 0 ? (
+        {visibleTags.length > 0 ? (
           <ul className="mt-auto flex flex-wrap gap-2">
-            {(squareMedia ? instagramTags : tags).map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full border border-black px-3 py-1 text-xs uppercase tracking-wider text-black"
-              >
+            {visibleTags.map((tag) => (
+              <li key={tag} className="chip px-3 py-1 text-xs uppercase tracking-wider">
                 {tag}
               </li>
             ))}
@@ -189,7 +187,12 @@ export default function ProyectoCard({ project, squareMedia = false }: Props) {
 
   if (isExternal) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={cardClassName}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cardClassName}
+      >
         {content}
       </a>
     );
